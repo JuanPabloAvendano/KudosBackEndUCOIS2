@@ -1,0 +1,625 @@
+<mxfile host="Electron" agent="Claude (borrador para Juan)" pages="3">
+  <diagram id="c4-n1" name="1 · C4 N1 Contexto">
+    <mxGraphModel dx="1042" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1440" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=18" value="&lt;b&gt;UCO Kudos · C4 nivel 1 · Contexto del sistema&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;v5 · aprobado por Juan 8-nov-2026 · Juan Pablo Avendaño Duque · ADR-006 y ADR-007&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="900" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leyenda" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10" value="&lt;b&gt;Leyenda&lt;/b&gt;&lt;br&gt;Azul oscuro: persona · Azul: sistema propio · Gris: sistema externo&lt;br&gt;Continua: petición · Punteada: entrega o notificación" vertex="1">
+          <mxGeometry height="50" width="440" x="960" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="miembro" parent="1" style="html=1;fontSize=11;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;" value="&lt;b&gt;Miembro de la comunidad UCO&lt;/b&gt;&lt;br&gt;[Persona]&lt;br&gt;&lt;br&gt;Estudiante, docente o personal. Publica, lee y recibe Kudos. 90 % desde el celular." vertex="1">
+          <mxGeometry height="200" width="220" x="60" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="html=1;fontSize=11;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;" value="&lt;b&gt;Administrador&lt;/b&gt;&lt;br&gt;[Persona · rol de miembro]&lt;br&gt;&lt;br&gt;Miembro de la comunidad con rol administrador (rol de Entra que valida kudos-service). Publica y recibe Kudos como cualquiera y además consulta la auditoría." vertex="1">
+          <mxGeometry height="240" width="240" x="50" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="kudos" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;UCO Kudos&lt;/b&gt;&lt;br&gt;[Sistema de software]&lt;br&gt;&lt;br&gt;Registra reconocimientos con adjuntos, los notifica por correo, WhatsApp y push en tiempo real, y audita cada paso. Front + kudos-service propios sobre servicios administrados de Azure (WAF en Front Door, correo con ACS Email)." vertex="1">
+          <mxGeometry height="180" width="300" x="700" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="entra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Microsoft Entra External ID&lt;/b&gt;&lt;br&gt;[Sistema externo]&lt;br&gt;&lt;br&gt;Proveedor de identidad: autentica a los usuarios y emite sus tokens." vertex="1">
+          <mxGeometry height="120" width="270" x="715" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="twilio" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Twilio WhatsApp&lt;/b&gt;&lt;br&gt;[Sistema externo]&lt;br&gt;&lt;br&gt;Entrega el mensaje de WhatsApp (sandbox)." vertex="1">
+          <mxGeometry height="110" width="220" x="1160" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="pendiente" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;verticalAlign=top;spacingLeft=6;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Pendiente de Juan&lt;/b&gt;&lt;br&gt;1. ¿Reconocimiento entre pares (cualquiera a cualquiera)?&lt;br&gt;2. ¿Kudo a quien nunca entró? ¿De dónde salen su correo y teléfono?&lt;br&gt;3. Crear el tenant de Entra External ID." vertex="1">
+          <mxGeometry height="110" width="340" x="1040" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="miembro" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" target="kudos" value="Publica y lee Kudos&lt;br&gt;[HTTPS, web móvil]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="kudos" value="Consulta la auditoría&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="miembro" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="entra" value="Inicia sesión [OIDC + PKCE]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="entra" value="Valida los tokens&lt;br&gt;[OIDC / JWKS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="twilio" value="Pide enviar el WhatsApp&lt;br&gt;[HTTPS, API]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="twilio" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="miembro" value="Entrega el WhatsApp">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1270" y="90" />
+              <mxPoint x="170" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="miembro" value="Correo (ACS Email) y push en tiempo real si está conectado [SMTP, WebSocket]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="340" y="440" />
+              <mxPoint x="340" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="c4-n2" name="2 · C4 N2 Contenedores">
+    <mxGraphModel dx="3450" dy="1996" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1060" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=18" value="&lt;b&gt;UCO Kudos · C4 nivel 2 · Contenedores&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Borrador v13 · 9-nov-2026 · Juan Pablo Avendaño Duque · ADR-002, 003, 006, 007, 009 a 013, 015, 016 y 017 · infraestructura y SKU en la página Despliegue&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="900" x="230" y="-150" as="geometry" />
+        </mxCell>
+        <mxCell id="leyenda" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10" value="&lt;b&gt;Leyenda&lt;/b&gt; · título = concepto · [tecnología · proveedor] · descripción = qué hace en el sistema&lt;br&gt;Azul oscuro: aplicación propia (código) · Azul claro: servicio administrado (solo configuración) · Gris: sistema externo&lt;br&gt;Continua: síncrono · Punteada: asíncrono / entrega · &lt;b&gt;1-8: Publicar Kudo · 9-10: recepción del destinatario&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="720" x="1190" y="-150" as="geometry" />
+        </mxCell>
+        <mxCell id="bound" parent="1" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;fillColor=none;strokeColor=#666666;fontColor=#333333;align=left;verticalAlign=top;spacingLeft=8;fontSize=12;" value="&lt;b&gt;UCO Kudos&lt;/b&gt; [Sistema de software]" vertex="1">
+          <mxGeometry height="967.5" width="1800" x="230" y="82.5" as="geometry" />
+        </mxCell>
+        <mxCell id="miembro" parent="1" style="html=1;fontSize=10;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;" value="&lt;b&gt;Miembro de la comunidad UCO&lt;/b&gt;&lt;br&gt;[Persona]&lt;br&gt;&lt;br&gt;Publica, lee y recibe Kudos desde el celular." vertex="1">
+          <mxGeometry height="180" width="200" x="-90" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="html=1;fontSize=10;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;" value="&lt;b&gt;Administrador&lt;/b&gt;&lt;br&gt;[Persona · rol de miembro]&lt;br&gt;&lt;br&gt;Miembro con rol admin: además consulta la auditoría." vertex="1">
+          <mxGeometry height="160" width="200" x="-90" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="entra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Identity Provider&lt;/b&gt;&lt;br&gt;[Microsoft Entra External ID]&lt;br&gt;&lt;br&gt;Autentica al usuario y emite el token con su rol." vertex="1">
+          <mxGeometry height="95" width="200" x="790" y="-40" as="geometry" />
+        </mxCell>
+        <mxCell id="front" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Front web&lt;/b&gt;&lt;br&gt;[SPA Vue 3 + TypeScript]&lt;br&gt;&lt;br&gt;Corre en el celular del miembro: publica, lee y recibe Kudos (ADR-002). Todas sus llamadas pasan por el WAF." vertex="1">
+          <mxGeometry height="130" width="210" x="270" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="frontdoor" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;WAF&lt;/b&gt;&lt;br&gt;[Azure Front Door + política WAF]&lt;br&gt;&lt;br&gt;Única entrada pública: reglas WAF personalizadas (tasa, IP, geo; sin OWASP), TLS; enruta /api/* al API Gateway con la cabecera X-Azure-FDID y entrega el front (CDN)." vertex="1">
+          <mxGeometry height="140" width="250" x="620" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="apim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;[Azure API Management]&lt;br&gt;&lt;br&gt;validate-jwt (OIDC de Entra External ID), cuotas por usuario; enruta a kudos-service con la cabecera secreta (ADR-013). Rechaza lo que no trae la X-Azure-FDID de Front Door." vertex="1">
+          <mxGeometry height="130" width="260" x="1000" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="pubsub" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Real-time Push&lt;/b&gt;&lt;br&gt;[Azure Web PubSub]&lt;br&gt;&lt;br&gt;Entrega al instante el aviso del Kudo nuevo al destinatario conectado (Free: 20 conexiones)." vertex="1">
+          <mxGeometry height="130" width="240" x="1370" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="kudos" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Servicio de Kudos&lt;/b&gt;&lt;br&gt;[Java 21 · Spring Boot · contenedor]&lt;br&gt;&lt;br&gt;Núcleo de negocio (hexagonal): valida el JWT y la cabecera del gateway (ADR-013); guarda el Kudo con su outbox y lo audita, publica KudoPublicado con el relevo @Scheduled (ADR-010), sirve el feed con SAS de los adjuntos y la auditoría al admin, entrega la URL del Real-time Push." vertex="1">
+          <mxGeometry height="190" width="260" x="940" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="keyvault" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Key Vault&lt;/b&gt;&lt;br&gt;[Azure Key Vault]&lt;br&gt;&lt;br&gt;Guarda secretos (Twilio, cabecera del gateway); kudos-service y el API Gateway los leen con su identidad (ADR-003, ADR-013)." vertex="1">
+          <mxGeometry height="95" width="220" x="1450" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="appconfig" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Parameter Catalog&lt;/b&gt;&lt;br&gt;[Azure App Configuration]&lt;br&gt;&lt;br&gt;Valores configurables sin tocar código: límites, plantillas, nombre del topic (ADR-003)." vertex="1">
+          <mxGeometry height="95" width="220" x="470" y="505" as="geometry" />
+        </mxCell>
+        <mxCell id="redis" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Caché&lt;/b&gt;&lt;br&gt;[Azure Managed Redis]&lt;br&gt;&lt;br&gt;Guarda el feed más leído para responder rápido (QA-1, ADR-017); se borra al publicar + TTL (ADR-011)." vertex="1">
+          <mxGeometry height="90" width="240" x="1440" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="blob" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Blob Storage&lt;/b&gt;&lt;br&gt;[Azure Blob Storage · contenedor adjuntos]&lt;br&gt;&lt;br&gt;Guarda los adjuntos; el front los descarga con SAS de delegación de usuario (5-15 min)." vertex="1">
+          <mxGeometry height="90" width="240" x="610" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="insights" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Observabilidad&lt;/b&gt;&lt;br&gt;[Application Insights + Log Analytics]&lt;br&gt;&lt;br&gt;Reúne trazas, métricas y logs con id de correlación de kudos-service, la Logic App y el diagnóstico de los demás recursos Azure (ver despliegue). Alertas y health." vertex="1">
+          <mxGeometry height="160" width="260" x="350" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="postgres" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Base de datos&lt;/b&gt;&lt;br&gt;[Azure Database for PostgreSQL]&lt;br&gt;&lt;br&gt;Fuente de verdad: Kudos, usuarios y outbox." vertex="1">
+          <mxGeometry height="110" width="180" x="920" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="queue" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Message Broker&lt;/b&gt;&lt;br&gt;[Azure Event Grid · topic kudos-eventos]&lt;br&gt;&lt;br&gt;Desacopla publicar de notificar: recibe KudoPublicado y lo empuja al instante a sus suscriptores; reintenta hasta 24 h; fallidos a Blob (mismo Storage)." vertex="1">
+          <mxGeometry height="120" width="240" x="1350" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="datamesh" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Data Mesh · data product&lt;/b&gt;&lt;br&gt;[Azure Data Factory + Blob · catálogo JSON]&lt;br&gt;&lt;br&gt;Publica a diario los datos analíticos de Kudos como producto (esquema, dueño, frescura) en un catálogo en Blob (mismo Storage); solo lee, no toca el flujo en línea (ADR-015)." vertex="1">
+          <mxGeometry height="130" width="260" x="620" y="845" as="geometry" />
+        </mxCell>
+        <mxCell id="table" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Auditoría&lt;/b&gt;&lt;br&gt;[Azure Table Storage]&lt;br&gt;&lt;br&gt;Solo-agregar: kudos-service registra Kudo guardado y evento publicado; la Logic App, cada notificación. Lo consulta el admin. Solo inserción y lectura (ADR-012)." vertex="1">
+          <mxGeometry height="130" width="260" x="940" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="logic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Notification Gateway&lt;/b&gt;&lt;br&gt;[Azure Logic Apps]&lt;br&gt;&lt;br&gt;Recibe el evento, descarta duplicados por id (ADR-009) y avisa en paralelo por correo, WhatsApp y push, con reintentos; registra cada notificación en la auditoría." vertex="1">
+          <mxGeometry height="130" width="240" x="1270" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="acs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Servicio de correo&lt;/b&gt;&lt;br&gt;[Azure Communication Services Email]&lt;br&gt;&lt;br&gt;Envía el correo de aviso desde el dominio administrado por Azure." vertex="1">
+          <mxGeometry height="100" width="220" x="1790" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="twilio" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Mensajería WhatsApp&lt;/b&gt;&lt;br&gt;[Twilio WhatsApp API]&lt;br&gt;&lt;br&gt;Entrega el aviso por WhatsApp." vertex="1">
+          <mxGeometry height="100" width="200" x="2140" y="914" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="miembro" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.55;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="front" value="Usa la web&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="admin" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="front" value="Consulta la auditoría&lt;br&gt;[HTTPS, navegador móvil]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="530.1" />
+              <mxPoint x="370" y="340.1" />
+              <mxPoint x="375" y="340.1" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="entra" value="Inicia sesión&lt;br&gt;[OIDC + PKCE, HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="110" />
+              <mxPoint x="890" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="apim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="entra" value="Valida el JWT [OIDC / JWKS, HTTPS]">
+          <mxGeometry relative="1" x="-0.6756" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1120" y="7.54" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="frontdoor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;exitX=0;exitY=0.8;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;" target="front" value="Entrega los archivos del front&lt;br&gt;[HTTPS, CDN]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.35;entryDx=0;entryDy=0;" target="frontdoor" value="1. Publica / lee Kudos&lt;br&gt;[HTTPS/REST + JWT]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="frontdoor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" target="apim" value="2. Enruta /api/*&lt;br&gt;[HTTPS + X-Azure-FDID]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="apim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kudos" value="3. Enruta [HTTPS + cabecera secreta]">
+          <mxGeometry relative="1" x="0.6" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="blob" value="4. Guarda adjunto&lt;br&gt;[HTTPS, SDK]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="815" y="460.08" />
+              <mxPoint x="815" y="425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;entryX=0.433;entryY=0;entryDx=0;entryDy=0;" target="postgres" value="5. Kudo + outbox&lt;br&gt;[JDBC]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="queue" value="6. Publica KudoPublicado [HTTPS, SDK]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1280" y="560.6" />
+              <mxPoint x="1280" y="710" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="queue" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="logic" value="7. Empuja el evento&lt;br&gt;[webhook HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="acs" value="8a. Envía correo [HTTPS, conector]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1850" y="925" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="twilio" value="8b. Envía WhatsApp [HTTPS, conector]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" target="pubsub" value="8c. Push si está conectado&lt;br&gt;[HTTPS REST, identidad adm.]">
+          <mxGeometry relative="1" x="-0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="1690" y="886" />
+              <mxPoint x="1690" y="199" />
+              <mxPoint x="1610" y="199" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="table" value="8d. Audita&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="pubsub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="front" value="9. Aviso en tiempo real [WebSocket]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1390" y="135" />
+              <mxPoint x="435" y="135" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="blob" value="10. Descarga adjunto [HTTPS + SAS de lectura]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="pubsub" value="Emite URL de conexión&lt;br&gt;[HTTPS REST]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1235.08" y="399.08" />
+              <mxPoint x="1235.08" y="320" />
+              <mxPoint x="1420" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="keyvault" value="Lee secretos&lt;br&gt;[HTTPS, identidad adm.]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1245" y="510" />
+              <mxPoint x="1245" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0;exitY=0.908;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="appconfig" value="Lee parámetros [HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.237;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="redis" value="Lee/escribe feed [RESP/TLS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0.85;exitY=1;exitDx=0;exitDy=0;entryX=0.85;entryY=0;entryDx=0;entryDy=0;" target="table" value="Escribe y lee auditoría&lt;br&gt;[HTTPS, SDK]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="insights" value="Telemetría [OTLP/HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="966" y="630" />
+              <mxPoint x="480" y="630" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e25" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="insights" value="Diagnóstico de ejecuciones [Azure Monitor]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1390" y="1005.08" />
+              <mxPoint x="480" y="1005.08" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e26" edge="1" parent="1" source="datamesh" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="postgres" value="Lee a diario (solo lectura)&lt;br&gt;[JDBC]">
+          <mxGeometry relative="1" x="0.2384" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="905.08" y="910" />
+              <mxPoint x="905.08" y="748" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="c4-desp" name="3 · C4 Despliegue">
+    <mxGraphModel dx="3133" dy="2669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2240" pageHeight="2000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=16" value="&lt;b&gt;Vista de despliegue: UCO Kudos · Producción&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Borrador v4 · 9-nov-2026 · Juan Pablo Avendaño Duque · estilo «Deployment View - Live» (c4model.com) · ADR-003, 006 a 009, 011 a 017&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="1100" x="-20" y="2160" as="geometry" />
+        </mxCell>
+        <mxCell id="leyenda" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10" value="&lt;b&gt;Leyenda&lt;/b&gt; · recuadro = nodo de despliegue (título abajo) · punteado = proveedor · elipse = nodo de infraestructura · caja = instancia de un contenedor del N2&lt;br&gt;Azul oscuro: propio · Azul claro: administrado · Gris: externo · Continua: síncrono · Punteada: asíncrono / entrega / CI-CD · relaciones de soporte en la nota" vertex="1">
+          <mxGeometry height="40" width="1000" x="930" y="2165" as="geometry" />
+        </mxCell>
+        <mxCell id="p_gh" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;dashed=1;dashPattern=1 3;strokeWidth=2;" value="&lt;b&gt;GitHub&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: SaaS]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="632" width="840" x="-430" y="-180" as="geometry" />
+        </mxCell>
+        <mxCell id="actions" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;CI/CD&lt;/b&gt;&lt;br&gt;[GitHub Actions]&lt;br&gt;&lt;br&gt;needs: Sonar y Trivy antes de publicar y desplegar; permisos mínimos (id-token solo en despliegue); entorno production con aprobación; OIDC federado, sin secretos; solo desde main; acciones fijadas por SHA (ADR-014)." vertex="1">
+          <mxGeometry height="130" width="240" x="100" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="trivy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Escáner de vulnerabilidades&lt;/b&gt;&lt;br&gt;[Trivy]&lt;br&gt;&lt;br&gt;Dependencias, Dockerfile e imagen; falla en HIGH/CRITICAL." vertex="1">
+          <mxGeometry height="130" width="240" x="90" y="-108" as="geometry" />
+        </mxCell>
+        <mxCell id="ghcr" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Registro de imágenes&lt;/b&gt;&lt;br&gt;[GHCR · paquete público]&lt;br&gt;&lt;br&gt;Imagen etiquetada por sha y desplegada por digest; SBOM." vertex="1">
+          <mxGeometry height="130" width="240" x="-400" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="sonar" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Análisis estático&lt;/b&gt;&lt;br&gt;[SonarQube Cloud]&lt;br&gt;&lt;br&gt;Quality gate que bloquea el pipeline." vertex="1">
+          <mxGeometry height="130" width="240" x="-380" y="-68" as="geometry" />
+        </mxCell>
+        <mxCell id="n_cel" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Celular del miembro&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Android o iOS]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="300" width="380" x="700" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="n_nav" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Navegador móvil&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Chrome o Safari]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="230" width="340" x="720" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="front" parent="1" style="shape=mxgraph.c4.webBrowserContainer2;whiteSpace=wrap;html=1;fontSize=10;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Front web&lt;/b&gt;&lt;br&gt;[Contenedor: SPA Vue 3 + TS]&lt;br&gt;&lt;br&gt;Publica, lee y recibe Kudos." vertex="1">
+          <mxGeometry height="150" width="290" x="745" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="entra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Identity Provider&lt;/b&gt;&lt;br&gt;[Sistema externo: Microsoft Entra External ID]&lt;br&gt;&lt;br&gt;Tenant propio; login y tokens." vertex="1">
+          <mxGeometry height="120" width="260" x="1250" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="twilio" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Mensajería WhatsApp&lt;/b&gt;&lt;br&gt;[Sistema externo: Twilio · sandbox]&lt;br&gt;&lt;br&gt;Credenciales en Key Vault." vertex="1">
+          <mxGeometry height="120" width="260" x="2400" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="p_edge" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;dashed=1;dashPattern=1 3;strokeWidth=2;" value="&lt;b&gt;Microsoft · borde global&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: red perimetral de Azure]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="230" width="530" x="650" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="n_fd" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Azure Front Door&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: perfil Standard + política WAF]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="170" width="410" x="670" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="waf" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#555555;fontColor=#333333;fontSize=10;" value="&lt;b&gt;WAF y CDN&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de infraestructura: Front Door]&lt;/font&gt;&lt;br&gt;Reglas personalizadas (tasa, IP, geo; sin OWASP). Agrega X-Azure-FDID. *.azurefd.net" vertex="1">
+          <mxGeometry height="130" width="320" x="740" y="452" as="geometry" />
+        </mxCell>
+        <mxCell id="p_az" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;dashed=1;dashPattern=1 3;strokeWidth=2;" value="&lt;b&gt;Microsoft Azure&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: nube]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="1410" width="2420" x="-210" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="n_sub" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Azure for Students · rg-kudos&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: suscripción n.º 2 y resource group · sin redundancia de zona (riesgo aceptado)]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="1300" width="2310" x="-130" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="n_reg" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;brazilsouth&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: región de Azure]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="1250" width="2270" x="-110" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="n_st" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;stkudosuco&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Storage account · LRS · TLS 1.2 · sin acceso anónimo salvo $web]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="470" width="770" x="-90" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="web" parent="1" style="shape=folder;tabWidth=60;tabHeight=12;tabPosition=left;whiteSpace=wrap;html=1;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Archivos del front&lt;/b&gt;&lt;br&gt;[Contenedor: sitio estático $web]&lt;br&gt;&lt;br&gt;HTML, CSS y JS del Front web." vertex="1">
+          <mxGeometry height="120" width="240" x="-60" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="adj" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Blob Storage&lt;/b&gt;&lt;br&gt;[Contenedor: blob adjuntos · privado]&lt;br&gt;&lt;br&gt;Lectura con SAS de delegación (5-15 min)." vertex="1">
+          <mxGeometry height="120" width="240" x="420" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="aud" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Auditoría&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Table Storage]&lt;br&gt;&lt;br&gt;Solo inserción y lectura (ADR-012)." vertex="1">
+          <mxGeometry height="120" width="240" x="-40" y="1065" as="geometry" />
+        </mxCell>
+        <mxCell id="dlq" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Eventos fallidos&lt;/b&gt;&lt;br&gt;[Blob eventos-fallidos (del Message Broker)]&lt;br&gt;&lt;br&gt;Dead-letter de Event Grid." vertex="1">
+          <mxGeometry height="120" width="240" x="200" y="945" as="geometry" />
+        </mxCell>
+        <mxCell id="apim" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#555555;fontColor=#333333;fontSize=10;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de infraestructura: API Management · Consumption]&lt;/font&gt;&lt;br&gt;validate-jwt de Entra; check-header X-Azure-FDID; agrega cabecera secreta hacia el back." vertex="1">
+          <mxGeometry height="150" width="320" x="790" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="n_env" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Entorno de Container Apps&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: consumo · Service Mesh mínimo: ingress Envoy + mTLS (ADR-008)]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="420" width="500" x="720" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="n_app" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;kudos-service&lt;/b&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;x1..3&lt;/b&gt; (min 1, max 3)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Container App · Docker · identidad administrada]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="330" width="450" x="745" y="985" as="geometry" />
+        </mxCell>
+        <mxCell id="n_jvm" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Máquina virtual Java&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Eclipse Temurin 21]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="230" width="400" x="770" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="kudos" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Servicio de Kudos&lt;/b&gt;&lt;br&gt;[Contenedor: Spring Boot]&lt;br&gt;&lt;br&gt;Valida el JWT y la cabecera del gateway; minReplicas 1 (QA-2)." vertex="1">
+          <mxGeometry height="150" width="340" x="800" y="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="n_eg" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Event Grid&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: custom topic kudos-eventos · identidad para dead-letter]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="190" width="420" x="1260" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="broker" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Message Broker&lt;/b&gt;&lt;br&gt;[Contenedor: topic de eventos]&lt;br&gt;&lt;br&gt;Empuja KudoPublicado; reintenta hasta 24 h." vertex="1">
+          <mxGeometry height="120" width="360" x="1290" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="n_la" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Logic Apps&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Consumption · identidad administrada]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="190" width="420" x="1250" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="logic" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Notification Gateway&lt;/b&gt;&lt;br&gt;[Contenedor: flujo de Logic App]&lt;br&gt;&lt;br&gt;Correo, WhatsApp, push y auditoría en paralelo; idempotente (ADR-009)." vertex="1">
+          <mxGeometry height="120" width="360" x="1270" y="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="n_ps" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Web PubSub&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Free · 20 conexiones, 20 000 mensajes/día]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="190" width="400" x="1740" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="pubsub" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Real-time Push&lt;/b&gt;&lt;br&gt;[Contenedor: hub de Web PubSub]&lt;br&gt;&lt;br&gt;Aviso al destinatario conectado." vertex="1">
+          <mxGeometry height="120" width="360" x="1760" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="n_acs" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Communication Services&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Email · dominio azurecomm.net · ubicación de datos elegida al crear]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="190" width="400" x="1740" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="acs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Servicio de correo&lt;/b&gt;&lt;br&gt;[Contenedor: ACS Email]&lt;br&gt;&lt;br&gt;Envía el correo de aviso." vertex="1">
+          <mxGeometry height="120" width="360" x="1760" y="1125" as="geometry" />
+        </mxCell>
+        <mxCell id="n_pg" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Azure Database for PostgreSQL&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: Flexible Server · B1ms · SSL obligatorio · firewall «servicios de Azure» (riesgo aceptado: abierto a cualquier tenant de Azure)]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="380" width="500" x="720" y="1420" as="geometry" />
+        </mxCell>
+        <mxCell id="n_pgs" parent="1" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#555555;fontColor=#333333;align=left;verticalAlign=bottom;spacingLeft=8;spacingBottom=4;fontSize=11;" value="&lt;b&gt;Servidor de base de datos&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Nodo de despliegue: PostgreSQL 16]&lt;/font&gt;" vertex="1">
+          <mxGeometry height="290" width="450" x="745" y="1445" as="geometry" />
+        </mxCell>
+        <mxCell id="postgres" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Base de datos&lt;/b&gt;&lt;br&gt;[Contenedor: esquema kudos]&lt;br&gt;&lt;br&gt;Kudos, usuarios y outbox." vertex="1">
+          <mxGeometry height="150" width="340" x="800" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="keyvault" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Key Vault&lt;/b&gt;&lt;br&gt;[Azure Key Vault · Standard · RBAC]&lt;br&gt;&lt;br&gt;Secretos (ADR-003): Twilio, cabecera del gateway. Purge protection. Sin restricción de red (riesgo aceptado)." vertex="1">
+          <mxGeometry height="120" width="240" x="-30" y="1325" as="geometry" />
+        </mxCell>
+        <mxCell id="appconfig" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Parameter Catalog&lt;/b&gt;&lt;br&gt;[App Configuration · Free]&lt;br&gt;&lt;br&gt;Parámetros (ADR-003)." vertex="1">
+          <mxGeometry height="120" width="240" x="-30" y="1488" as="geometry" />
+        </mxCell>
+        <mxCell id="insights" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Observabilidad&lt;/b&gt;&lt;br&gt;[Log Analytics + Application Insights]&lt;br&gt;&lt;br&gt;Diagnóstico de todos los recursos; cuota diaria baja." vertex="1">
+          <mxGeometry height="120" width="240" x="-30" y="1790" as="geometry" />
+        </mxCell>
+        <mxCell id="datamesh" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Data Mesh&lt;/b&gt;&lt;br&gt;[Data Factory · copia diaria]&lt;br&gt;&lt;br&gt;Escribe el data product en Blob (ADR-015)." vertex="1">
+          <mxGeometry height="120" width="240" x="-30" y="1650" as="geometry" />
+        </mxCell>
+        <mxCell id="redis" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Caché&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Managed Redis · SKU mínimo]&lt;br&gt;&lt;br&gt;Entra ID con identidad adm. y TLS; se borra al publicar + TTL (ADR-011, ADR-017)." vertex="1">
+          <mxGeometry height="120" width="360" x="1290" y="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="nota" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;verticalAlign=top;spacingLeft=6;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Relaciones de soporte (detalle en el N2)&lt;/b&gt;&lt;br&gt;Servicio de Kudos → Key Vault, Parameter Catalog, Caché y Observabilidad con identidad administrada.&lt;br&gt;Logic App → Key Vault (Twilio) y Observabilidad.&lt;br&gt;Data Mesh → Base de datos (solo lectura).&lt;br&gt;API Gateway → Key Vault (cabecera secreta, named value)." vertex="1">
+          <mxGeometry height="170" width="400" x="1740" y="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="web" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="front" value="Entrega&lt;br&gt;[HTTPS, vía Front Door]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140.06" y="640.06" />
+              <mxPoint x="430.06" y="640.06" />
+              <mxPoint x="430.06" y="150.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="waf" value="Hace peticiones a la API&lt;br&gt;[JSON/HTTPS + JWT]">
+          <mxGeometry relative="1" x="0.4151" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="waf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="web" value="Origen de los estáticos&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="100.06" y="517" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="waf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="apim" value="Reenvía /api/*&lt;br&gt;[HTTPS + X-Azure-FDID]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="apim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="kudos" value="Reenvía peticiones&lt;br&gt;[HTTPS + cabecera secreta]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="entra" value="Inicia sesión&lt;br&gt;[OIDC + PKCE]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1142.53" y="150.06" />
+              <mxPoint x="1142.53" y="140.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="adj" value="Guarda adjuntos&lt;br&gt;[HTTPS, identidad adm.]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700.06" y="1105" />
+              <mxPoint x="700.06" y="870.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="aud" value="Escribe y lee auditoría&lt;br&gt;[HTTPS, identidad adm.]">
+          <mxGeometry relative="1" x="0.5758" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="500" y="1160" />
+              <mxPoint x="500" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="broker" value="Publica KudoPublicado&lt;br&gt;[HTTPS, identidad adm.]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230" y="1105.08" />
+              <mxPoint x="1230" y="890" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="broker" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="logic" value="Empuja el evento&lt;br&gt;[webhook HTTPS]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="broker" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="dlq" value="Dead-letter&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1470.06" y="740.06" />
+              <mxPoint x="320.06" y="740.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="acs" value="Envía correo&lt;br&gt;[HTTPS, conector]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="twilio" value="Envía WhatsApp&lt;br&gt;[HTTPS, conector]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="1070" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="pubsub" value="Push si está conectado&lt;br&gt;[REST, identidad adm.]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1520.06" y="1030.06" />
+              <mxPoint x="1940.06" y="1030.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="logic" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="aud" value="Registra cada notificación&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" x="0.3481" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1580" y="1330" />
+              <mxPoint x="1680" y="1330" />
+              <mxPoint x="1680" y="1900" />
+              <mxPoint x="620" y="1900" />
+              <mxPoint x="620" y="1230" />
+              <mxPoint x="80" y="1230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="pubsub" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="front" value="Aviso en tiempo real&lt;br&gt;[WebSocket]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1790.06" y="630.06" />
+              <mxPoint x="1440.06" y="630.06" />
+              <mxPoint x="1440.06" y="300.06" />
+              <mxPoint x="1150.06" y="300.06" />
+              <mxPoint x="1150.06" y="230.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="adj" value=" ">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510.06" y="210.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="1" source="actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="trivy" value="Escanea&lt;br&gt;[bloquea HIGH/CRITICAL]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" source="actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="sonar" value="Quality gate&lt;br&gt;[bloquea si falla]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="140" />
+              <mxPoint x="-30" y="140" />
+              <mxPoint x="-30" y="30" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="ghcr" value="Publica imagen&lt;br&gt;[tag=sha, SBOM]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-30" y="255" />
+              <mxPoint x="-30" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e22" edge="1" parent="1" source="actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="n_app" value="Despliega nueva revisión&lt;br&gt;[OIDC federado]">
+          <mxGeometry relative="1" x="0.037" y="20" as="geometry">
+            <mxPoint x="1" as="offset" />
+            <Array as="points">
+              <mxPoint x="580" y="255" />
+              <mxPoint x="580" y="680" />
+              <mxPoint x="770" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e23" edge="1" parent="1" source="actions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="web" value="Sube el front&lt;br&gt;[OIDC federado]">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160.06" y="480.06" />
+              <mxPoint x="60.06" y="480.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e24" edge="1" parent="1" source="ghcr" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="n_app" value=" ">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-280" y="1300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IP6HCBCF77hS4vSdyuoW-3" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="postgres" value="Guarda Kudo y outbox&lt;br&gt;[JDBC/TLS]">
+          <mxGeometry relative="1" x="0.5625" as="geometry">
+            <mxPoint y="-1" as="offset" />
+            <Array as="points">
+              <mxPoint x="1120" y="1280" />
+              <mxPoint x="1120" y="1280" />
+            </Array>
+            <mxPoint x="980" y="1340" as="sourcePoint" />
+            <mxPoint x="980" y="1560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IP6HCBCF77hS4vSdyuoW-5" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;" target="redis" value="Lee y escribe feed&lt;br&gt;[RESP/TLS]">
+          <mxGeometry relative="1" x="0.3016" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1140" y="1350" />
+              <mxPoint x="1470" y="1350" />
+            </Array>
+            <mxPoint x="950" y="1260" as="sourcePoint" />
+            <mxPoint x="980" y="1550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nota_revision" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Notas de revisión · 8 y 9-nov-2026 (expertos Azure, C4 y DevSecOps)&lt;/b&gt;&lt;br&gt;1. &lt;b&gt;Exposición:&lt;/b&gt; el ingress de Container Apps es externo; el back valida JWT + cabecera secreta del gateway (APIM Consumption no tiene IP fija). X-Azure-FDID es filtro, no control de red. → ADR-013 (aceptada)&lt;br&gt;2. &lt;b&gt;Identidades RBAC:&lt;/b&gt; kudos-service → Key Vault, App Config, Blob, Table, Event Grid; Logic App → Table, Web PubSub, ACS, Key Vault; Event Grid → Blob (dead-letter); Actions → rg-kudos por OIDC federado.&lt;br&gt;3. &lt;b&gt;CI/CD:&lt;/b&gt; needs + Trivy exit-code 1; imagen por sha y digest; SBOM; cosign como mejora. → ADR-014 (aceptada)&lt;br&gt;4. &lt;b&gt;Disponibilidad:&lt;/b&gt; minReplicas 1 (arranque en frío vs QA-2); calentar APIM antes de la demo; sin zonas ni SLA.&lt;br&gt;5. &lt;b&gt;Costo:&lt;/b&gt; lo que pesa: Front Door, PostgreSQL B1ms, Container Apps min 1, Log Analytics. Borrar rg-kudos tras la sustentación. Presupuesto con alertas al 50/80 % (paso 1, pendiente).&lt;br&gt;6. Decididas el 9-nov: ADR-009 a 015 y Redis (ADR-017). Falta pasar 4 y 5 a la tabla de riesgos (bloque 8).&lt;br&gt;&lt;i&gt;Antes de entregar: pasar estas notas a los ADR y borrar esta nota.&lt;/i&gt;" vertex="1">
+          <mxGeometry height="360" width="620" x="1560" y="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
