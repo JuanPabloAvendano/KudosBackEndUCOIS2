@@ -81,8 +81,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      
+
       - name: Publicar imagen
         if: github.event_name != 'pull_request'
         run: |
           docker push $IMAGE:${{ github.sha }}
           docker push $IMAGE:latest
+  cd:
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Desplegar en Container Apps
+        run: |
+          az containerapp update -n ca-kudos-service -g rg-kudos \
+            --image ghcr.io/juanpabloavendano/kudos-service:${{ github.sha }}
