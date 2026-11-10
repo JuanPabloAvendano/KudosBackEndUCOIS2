@@ -10,7 +10,10 @@ RUN ./mvnw -B -DskipTests package
 # ---------- Stage 2: run ----------
 FROM eclipse-temurin:27-jre
 LABEL org.opencontainers.image.authors="Juan Pablo Avendaño"
-RUN groupadd --system kudos && useradd --system --gid kudos kudos
+RUN apt-get update \
+ && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/* \
+ && groupadd --system kudos && useradd --system --gid kudos kudos
 WORKDIR /app
 COPY --from=build /app/target/KudosBackEndUCOIS2-0.0.1-SNAPSHOT.jar app.jar
 USER kudos
