@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Claude (borrador para Juan)" pages="3">
+<mxfile host="Electron" agent="Claude (borrador para Juan)" pages="4">
   <diagram id="c4-n1" name="1 · C4 N1 Contexto">
     <mxGraphModel dx="1042" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1440" pageHeight="800" math="0" shadow="0">
       <root>
@@ -618,6 +618,162 @@
         </mxCell>
         <mxCell id="nota_revision" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;verticalAlign=top;spacingLeft=6;spacingTop=2;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Notas de revisión · 8 y 9-nov-2026 (expertos Azure, C4 y DevSecOps)&lt;/b&gt;&lt;br&gt;1. &lt;b&gt;Exposición:&lt;/b&gt; el ingress de Container Apps es externo; el back valida JWT + cabecera secreta del gateway (APIM Consumption no tiene IP fija). X-Azure-FDID es filtro, no control de red. → ADR-013 (aceptada)&lt;br&gt;2. &lt;b&gt;Identidades RBAC:&lt;/b&gt; kudos-service → Key Vault, App Config, Blob, Table, Event Grid; Logic App → Table, Web PubSub, ACS, Key Vault; Event Grid → Blob (dead-letter); Actions → rg-kudos por OIDC federado.&lt;br&gt;3. &lt;b&gt;CI/CD:&lt;/b&gt; needs + Trivy exit-code 1; imagen por sha y digest; SBOM; cosign como mejora. → ADR-014 (aceptada)&lt;br&gt;4. &lt;b&gt;Disponibilidad:&lt;/b&gt; minReplicas 1 (arranque en frío vs QA-2); calentar APIM antes de la demo; sin zonas ni SLA.&lt;br&gt;5. &lt;b&gt;Costo:&lt;/b&gt; lo que pesa: Front Door, PostgreSQL B1ms, Container Apps min 1, Log Analytics. Borrar rg-kudos tras la sustentación. Presupuesto con alertas al 50/80 % (paso 1, pendiente).&lt;br&gt;6. Decididas el 9-nov: ADR-009 a 015 y Redis (ADR-017). Falta pasar 4 y 5 a la tabla de riesgos (bloque 8).&lt;br&gt;&lt;i&gt;Antes de entregar: pasar estas notas a los ADR y borrar esta nota.&lt;/i&gt;" vertex="1">
           <mxGeometry height="360" width="620" x="1560" y="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ho4C0_D6Df0mKmTB-Gzc" name="C4 N3 Componentes · Servicio de Kudos">
+    <mxGraphModel dx="4047" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-1" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=18;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;UCO Kudos · C4 nivel 3 · Componentes del Servicio de Kudos&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Borrador v5 · línea base · 9-nov-2026 · Juan Pablo Avendaño Duque · un componente por funcionalidad (package by component), hexagonal por dentro · ADR-003, 007, 010, 011, 012, 013&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="900" x="740" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-2" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Leyenda&lt;/b&gt; · Celeste: componente · Azul: contenedor administrado · Gris: sistema externo · Continua: llamada síncrona (lo asíncrono empieza en el Message Broker)" vertex="1">
+          <mxGeometry height="30" width="640" x="1320" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;[Contenedor: Azure API Management]&lt;br&gt;&lt;br&gt;Reenvía las peticiones con JWT y cabecera secreta." vertex="1">
+          <mxGeometry height="100" width="190" x="390" y="735" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Identity Provider&lt;/b&gt;&lt;br&gt;[Sistema externo: Microsoft Entra External ID]&lt;br&gt;&lt;br&gt;Publica las llaves para validar el JWT." vertex="1">
+          <mxGeometry height="110" width="190" x="380" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;fillColor=none;strokeColor=#666666;fontColor=#333333;align=left;verticalAlign=top;spacingLeft=8;fontSize=12;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Servicio de Kudos&lt;/b&gt; [Contenedor: Java 21 · Spring Boot]" vertex="1">
+          <mxGeometry height="1130" width="1310" x="740" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#63BEF2;strokeColor=#2D93D0;fontColor=#000000;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Categorías&lt;/b&gt;&lt;br&gt;[Componente: Spring MVC · JPA]&lt;br&gt;&lt;br&gt;Consulta las categorías; administrarlas (Administrador, Rector, Coordinador Académico) va después de la línea base." vertex="1">
+          <mxGeometry height="150" width="250" x="1740" y="835" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#63BEF2;strokeColor=#2D93D0;fontColor=#000000;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Auditoría&lt;/b&gt;&lt;br&gt;[Componente: SDK de Azure · Spring MVC]&lt;br&gt;&lt;br&gt;Registra cada paso del flujo, sin borrar ni modificar, y le muestra el registro al administrador." vertex="1">
+          <mxGeometry height="150" width="250" x="1450" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#63BEF2;strokeColor=#2D93D0;fontColor=#000000;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Usuarios y acceso&lt;/b&gt;&lt;br&gt;[Componente: Spring Security · JPA]&lt;br&gt;&lt;br&gt;Toda petición pasa por aquí: valida token, cabecera del gateway y rol (un rol activo). Crea o actualiza al usuario desde el token." vertex="1">
+          <mxGeometry height="150" width="250" x="805" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#63BEF2;strokeColor=#2D93D0;fontColor=#000000;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Reconocimientos&lt;/b&gt;&lt;br&gt;[Componente: Spring MVC · JPA · Spring Data Redis]&lt;br&gt;&lt;br&gt;Publicar y consultar Kudos; feed paginado con caché. Las réplicas van después de la línea base. Es el corazón de Publicar Kudo." vertex="1">
+          <mxGeometry height="150" width="250" x="1290" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#63BEF2;strokeColor=#2D93D0;fontColor=#000000;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Adjuntos&lt;/b&gt;&lt;br&gt;[Componente: SDK de Azure]&lt;br&gt;&lt;br&gt;Valida el contenido real del archivo, lo guarda y emite enlaces temporales de lectura." vertex="1">
+          <mxGeometry height="150" width="250" x="1730" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#63BEF2;strokeColor=#2D93D0;fontColor=#000000;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Eventos de integración&lt;/b&gt;&lt;br&gt;[Componente: Spring Scheduling · JPA · SDK de Azure]&lt;br&gt;&lt;br&gt;Outbox: guarda el evento junto con el Kudo; el relevo lo publica cada ~1 s y lo marca enviado." vertex="1">
+          <mxGeometry height="150" width="250" x="980" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-12" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Registro de auditoría&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Table Storage]&lt;br&gt;&lt;br&gt;Solo-agregar." vertex="1">
+          <mxGeometry height="90" width="230" x="2090" y="1170" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-13" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Caché&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Managed Redis]&lt;br&gt;&lt;br&gt;Feed más leído." vertex="1">
+          <mxGeometry height="80" width="230" x="2330" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-14" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Blob Storage&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Blob Storage]&lt;br&gt;&lt;br&gt;Contenedor adjuntos: archivos de los Kudos." vertex="1">
+          <mxGeometry height="90" width="230" x="2330" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-15" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=11;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Base de datos&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Database for PostgreSQL]&lt;br&gt;&lt;br&gt;Tablas de cada componente y outbox." vertex="1">
+          <mxGeometry height="120" width="230" x="2410" y="1080" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Message Broker&lt;/b&gt;&lt;br&gt;[Contenedor: Azure Event Grid]&lt;br&gt;&lt;br&gt;Topic kudos-eventos." vertex="1">
+          <mxGeometry height="80" width="230" x="2140" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-17" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;align=left;verticalAlign=top;spacingLeft=6;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" value="&lt;b&gt;Cómo se construye cada componente&lt;/b&gt; · Por dentro es hexagonal: dominio, casos de uso con sus puertos y adaptadores. Un componente solo habla con otro por su interfaz pública (se prueba con ArchUnit). La configuración (Key Vault, Parameter Catalog) y la telemetría son transversales y no se dibujan. Moderación y Calificaciones se agregan después de la línea base." vertex="1">
+          <mxGeometry height="60" width="1090" x="740" y="1595" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-18" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-8" value="Reenvía peticiones&lt;br&gt;[HTTPS + JWT&lt;br&gt;+ cabecera]">
+          <mxGeometry relative="1" x="-0.2" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-19" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-4" value="Llaves JWT&lt;br&gt;[JWKS]">
+          <mxGeometry relative="1" x="0.3" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="980" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-20" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-9" value="Delega la petición&lt;br&gt;[llamada Java]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-21" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0;exitY=0.7;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-8" value="Consulta autor&lt;br&gt;y destinatario&lt;br&gt;[llamada Java]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-22" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-6" value="Valida la&lt;br&gt;categoría&lt;br&gt;[llamada Java]">
+          <mxGeometry relative="1" x="0.55" as="geometry">
+            <Array as="points">
+              <mxPoint x="1610" y="850" />
+              <mxPoint x="1610" y="895" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-23" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0.4;exitY=1;exitDx=0;exitDy=0;entryX=0.4;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-11" value="Registra KudoPublicado,&lt;br&gt;misma transacción [llamada Java]">
+          <mxGeometry relative="1" x="0.6" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-24" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-10" value="Guarda y entrega&lt;br&gt;adjuntos&lt;br&gt;[llamada Java]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-25" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-7" value="Registra cada paso&lt;br&gt;[llamada Java]">
+          <mxGeometry relative="1" x="-0.45" as="geometry">
+            <Array as="points">
+              <mxPoint x="1440" y="990" />
+              <mxPoint x="1470" y="990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-26" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=0;entryY=0.6;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-7" value="Registra&lt;br&gt;EventoPublicado&lt;br&gt;[llamada Java]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-27" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-13" value="Lee, escribe y borra el feed [RESP/TLS]">
+          <mxGeometry relative="1" x="0.22" as="geometry">
+            <Array as="points">
+              <mxPoint x="1385" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-28" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;entryX=0;entryY=0.25;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-15" value="Lee y escribe usuarios [JDBC/TLS]">
+          <mxGeometry relative="1" x="0.32" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="1540" />
+              <mxPoint x="2680" y="1540" />
+              <mxPoint x="2680" y="1100" />
+              <mxPoint x="2410" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-29" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-15" value="Lee y escribe Kudos [JDBC/TLS]">
+          <mxGeometry relative="1" x="0.27" as="geometry">
+            <Array as="points">
+              <mxPoint x="1510" y="1020" />
+              <mxPoint x="2250" y="1020" />
+              <mxPoint x="2250" y="1140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-30" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-15" value="Guarda y marca el outbox [JDBC/TLS]">
+          <mxGeometry relative="1" x="0.19" as="geometry">
+            <Array as="points">
+              <mxPoint x="1105" y="1310" />
+              <mxPoint x="2540" y="1310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-31" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-15" value="Lee categorías [JDBC/TLS]">
+          <mxGeometry relative="1" x="0.3" as="geometry">
+            <Array as="points">
+              <mxPoint x="2540" y="910" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-32" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-16" value="Publica KudoPublicado [HTTPS]">
+          <mxGeometry relative="1" x="0.345" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1030" y="1410" />
+            </Array>
+            <mxPoint x="2460" y="1540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-33" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;;locked=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-14" value="Guarda y lee&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" x="0.38" as="geometry" />
+        </mxCell>
+        <mxCell id="IPR0XXkAcIu4NECwaW_M-34" edge="1" parent="1" source="IPR0XXkAcIu4NECwaW_M-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="IPR0XXkAcIu4NECwaW_M-12" value="Inserta y&lt;br&gt;consulta&lt;br&gt;[HTTPS]">
+          <mxGeometry relative="1" x="0.38" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -1,0 +1,294 @@
+<mxfile host="Electron">
+  <diagram id="seq" name="Secuencia · Publicar Kudo">
+    <mxGraphModel dx="607" dy="500" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2738" pageHeight="1530" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titulo" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=18" value="&lt;b&gt;UCO Kudos · Secuencia · Publicar Kudo&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Borrador v1 · 9-nov-2026 · Juan Pablo Avendaño Duque · líneas de vida con los nombres del C4 N3 · ADR-007, 009, 010, 011, 016&lt;/font&gt;" vertex="1">
+          <mxGeometry height="50" width="1100" x="30" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leyenda" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10" value="&lt;b&gt;Leyenda&lt;/b&gt; · Flecha continua: llamada síncrona · Punteada: respuesta o entrega asíncrona · Marco: critical (transacción), loop (bucle) o par (paralelo)&lt;br&gt;Las respuestas de las llamadas síncronas no se dibujan, salvo el 201" vertex="1">
+          <mxGeometry height="40" width="900" x="1250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="mie" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#083F75;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Miembro&lt;/b&gt;&lt;br&gt;[Persona]" vertex="1">
+          <mxGeometry height="1400" width="118" x="30" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="front" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#1061B0;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Front web&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="162" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="waf" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;WAF&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="294" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="gw" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="426" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="uac" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#63BEF2;fontColor=#000000;strokeColor=#5a5a5a;" value="&lt;b&gt;Usuarios y acceso&lt;/b&gt;&lt;br&gt;[Componente]" vertex="1">
+          <mxGeometry height="1400" width="118" x="558" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="rec" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#63BEF2;fontColor=#000000;strokeColor=#5a5a5a;" value="&lt;b&gt;Reconocimientos&lt;/b&gt;&lt;br&gt;[Componente]" vertex="1">
+          <mxGeometry height="1400" width="118" x="690" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cat" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#63BEF2;fontColor=#000000;strokeColor=#5a5a5a;" value="&lt;b&gt;Categorías&lt;/b&gt;&lt;br&gt;[Componente]" vertex="1">
+          <mxGeometry height="1400" width="118" x="822" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="adj" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#63BEF2;fontColor=#000000;strokeColor=#5a5a5a;" value="&lt;b&gt;Adjuntos&lt;/b&gt;&lt;br&gt;[Componente]" vertex="1">
+          <mxGeometry height="1400" width="118" x="954" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="evt" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#63BEF2;fontColor=#000000;strokeColor=#5a5a5a;" value="&lt;b&gt;Eventos de integración&lt;/b&gt;&lt;br&gt;[Componente]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1086" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="aud" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#63BEF2;fontColor=#000000;strokeColor=#5a5a5a;" value="&lt;b&gt;Auditoría&lt;/b&gt;&lt;br&gt;[Componente]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1218" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="db" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Base de datos&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1350" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="blob" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Blob Storage&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1482" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="cache" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Caché&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1614" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reg" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Registro de auditoría&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1746" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="broker" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Message Broker&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="1878" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ng" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Notification Gateway&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="2010" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="mail" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Servicio de correo&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="2142" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="wa" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#8C8496;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Mensajería WhatsApp&lt;/b&gt;&lt;br&gt;[Sistema externo]" vertex="1">
+          <mxGeometry height="1400" width="118" x="2274" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="push" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=50;fontSize=10;fillColor=#23A2D9;fontColor=#ffffff;strokeColor=#5a5a5a;" value="&lt;b&gt;Real-time Push&lt;/b&gt;&lt;br&gt;[Contenedor]" vertex="1">
+          <mxGeometry height="1400" width="118" x="2406" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="1. Publica (destinatario, categoría, texto, adjunto)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="89" y="160" as="sourcePoint" />
+            <mxPoint x="221" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="2. POST /api/kudos + JWT [HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="221" y="194" as="sourcePoint" />
+            <mxPoint x="353" y="194" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="3. Reenvía + X-Azure-FDID">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="353" y="228" as="sourcePoint" />
+            <mxPoint x="485" y="228" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;align=left;spacingLeft=4;" value="4. Valida JWT y cuota">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="519" y="262" />
+              <mxPoint x="519" y="278" />
+            </Array>
+            <mxPoint x="485" y="262" as="sourcePoint" />
+            <mxPoint x="485" y="278" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="5. Reenvía + cabecera secreta">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="485" y="306" as="sourcePoint" />
+            <mxPoint x="617" y="306" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;align=left;spacingLeft=4;" value="6. Valida token, cabecera y rol">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="651" y="340" />
+              <mxPoint x="651" y="356" />
+            </Array>
+            <mxPoint x="617" y="340" as="sourcePoint" />
+            <mxPoint x="617" y="356" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="7. Crea o actualiza al usuario">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="617" y="384" as="sourcePoint" />
+            <mxPoint x="1409" y="384" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="8. Delega la petición">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="617" y="418" as="sourcePoint" />
+            <mxPoint x="749" y="418" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="9. Consulta el destinatario">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="452" as="sourcePoint" />
+            <mxPoint x="617" y="452" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="10. Valida la categoría">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="486" as="sourcePoint" />
+            <mxPoint x="881" y="486" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="11. Lee la categoría">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="881" y="520" as="sourcePoint" />
+            <mxPoint x="1409" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="12. Guarda el adjunto (antes de la transacción)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="554" as="sourcePoint" />
+            <mxPoint x="1013" y="554" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="13. Valida contenido y guarda el archivo [HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1013" y="588" as="sourcePoint" />
+            <mxPoint x="1541" y="588" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="14. BEGIN · INSERT kudo y adjunto">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="650" as="sourcePoint" />
+            <mxPoint x="1409" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="15. Registra KudoPublicado">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="684" as="sourcePoint" />
+            <mxPoint x="1145" y="684" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m16" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="16. INSERT outbox">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1145" y="718" as="sourcePoint" />
+            <mxPoint x="1409" y="718" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m17" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="17. COMMIT">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="752" as="sourcePoint" />
+            <mxPoint x="1409" y="752" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="marco17" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=420;height=22;fontSize=10;fillColor=none;strokeColor=#888888;fontStyle=1;swimlaneFillColor=none;align=left;spacingLeft=4;" value="critical · &lt;i&gt;[Una transacción: Kudo + outbox (ADR-010)]&lt;/i&gt;" vertex="1">
+          <mxGeometry height="170" width="2415" x="70" y="622" as="geometry" />
+        </mxCell>
+        <mxCell id="m18" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="18. Registra «KudoGuardado»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="820" as="sourcePoint" />
+            <mxPoint x="1277" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m19" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="19. Inserta el registro [HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1277" y="854" as="sourcePoint" />
+            <mxPoint x="1805" y="854" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m20" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="20. Borra la clave del feed">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="888" as="sourcePoint" />
+            <mxPoint x="1673" y="888" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m21" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="21. 201 Created (vuelve por la misma cadena)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="749" y="922" as="sourcePoint" />
+            <mxPoint x="221" y="922" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m22" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="22. BEGIN · SELECT pendientes FOR UPDATE SKIP LOCKED">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1145" y="984" as="sourcePoint" />
+            <mxPoint x="1409" y="984" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m23" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="23. Publica KudoPublicado [CloudEvents]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1145" y="1018" as="sourcePoint" />
+            <mxPoint x="1937" y="1018" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m24" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="24. Marca enviado · COMMIT">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1145" y="1052" as="sourcePoint" />
+            <mxPoint x="1409" y="1052" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m25" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="25. Registra «EventoPublicado»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1145" y="1086" as="sourcePoint" />
+            <mxPoint x="1277" y="1086" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m26" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="26. Inserta el registro [HTTPS]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1277" y="1120" as="sourcePoint" />
+            <mxPoint x="1805" y="1120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="marco27" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=420;height=22;fontSize=10;fillColor=none;strokeColor=#888888;fontStyle=1;swimlaneFillColor=none;align=left;spacingLeft=4;" value="loop · &lt;i&gt;[Relevo del outbox, cada ~1 s, una transacción por lote]&lt;/i&gt;" vertex="1">
+          <mxGeometry height="204" width="2415" x="70" y="956" as="geometry" />
+        </mxCell>
+        <mxCell id="m27" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="27. Empuja el evento [webhook HTTPS, asíncrono]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1937" y="1188" as="sourcePoint" />
+            <mxPoint x="2069" y="1188" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m28" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="28. Envía el correo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2069" y="1250" as="sourcePoint" />
+            <mxPoint x="2201" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sep30" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="1272" as="sourcePoint" />
+            <mxPoint x="2485" y="1272" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m29" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="29. Envía el WhatsApp">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2069" y="1292" as="sourcePoint" />
+            <mxPoint x="2333" y="1292" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sep32" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#888888;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="1314" as="sourcePoint" />
+            <mxPoint x="2485" y="1314" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m30" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="30. Aviso al destinatario">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2069" y="1334" as="sourcePoint" />
+            <mxPoint x="2465" y="1334" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m31" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endSize=8;dashed=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="31. Aviso en tiempo real [WebSocket]">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2465" y="1368" as="sourcePoint" />
+            <mxPoint x="221" y="1368" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="marco35" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=420;height=22;fontSize=10;fillColor=none;strokeColor=#888888;fontStyle=1;swimlaneFillColor=none;align=left;spacingLeft=4;" value="par · &lt;i&gt;[Un canal por operando, en paralelo]&lt;/i&gt;" vertex="1">
+          <mxGeometry height="186" width="2415" x="70" y="1222" as="geometry" />
+        </mxCell>
+        <mxCell id="m32" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=10;strokeColor=#404040;labelBackgroundColor=#ffffff;" value="32. Registra cada canal">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2069" y="1436" as="sourcePoint" />
+            <mxPoint x="1805" y="1436" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
