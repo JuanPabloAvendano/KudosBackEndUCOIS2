@@ -35,6 +35,10 @@
         <org-json.version>20260814</org-json.version>
         <!-- Jackson 3.3 exige annotations 2.23; el BOM de Jackson 2 de Boot fija 2.21 (NoClassDefFoundError JsonApplyView) -->
         <jackson-annotations.version>2.23</jackson-annotations.version>
+        <!-- CVE-2026-110879 (9.8): Jackson 2 que trae azure-core; Boot 4.1.2 fija 2.21.7 -->
+        <jackson-2-bom.version>2.21.8</jackson-2-bom.version>
+        <!-- CVE-2026-119078: Boot 4.1.2 trae 1.21.0 (solo pruebas, vía Testcontainers) -->
+        <commons-codec.version>1.23.0</commons-codec.version>
 
         <!-- Azure SDK: el azure-sdk-bom va rezagado; estas cuatro se alinean en azure-core 1.61.0 -->
         <azure-identity.version>1.19.0</azure-identity.version>
@@ -51,6 +55,7 @@
         <sonar.organization>juanpabloavendano</sonar.organization>
         <sonar.projectKey>JuanPabloAvendano_KudosBackEndUCOIS2</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -61,7 +66,7 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-annotations.version}</version>
             </dependency>
-            <!-- Boot no administra ASM (llega por json-smart → accessors-smart) cambiando algo-->
+            <!-- Boot no administra ASM (llega por json-smart → accessors-smart) -->
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
