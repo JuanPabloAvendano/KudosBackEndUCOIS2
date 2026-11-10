@@ -1,0 +1,79 @@
+# Nada fijo aquí (ADR-003): cada valor llega por variable de entorno, que Juan pone en el portal de Azure
+# (Container Apps → Contenedor → Variables de entorno, con referencias a Key Vault para los secretos).
+spring:
+  application:
+    name: kudos-service
+  datasource:
+    url: ${KUDOS_DB_URL}
+    username: ${KUDOS_DB_USUARIO}
+    password: ${KUDOS_DB_CLAVE}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    locations: classpath:db/migration
+  data:
+    redis:
+      host: ${KUDOS_REDIS_HOST}
+      port: ${KUDOS_REDIS_PUERTO}
+      password: ${KUDOS_REDIS_CLAVE}
+      ssl:
+        enabled: ${KUDOS_REDIS_TLS}
+      timeout: ${KUDOS_REDIS_TIEMPO_LIMITE}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KUDOS_JWT_ISSUER_URI}
+          audiences: ${KUDOS_JWT_AUDIENCIA}
+  servlet:
+    multipart:
+      max-file-size: ${KUDOS_MULTIPART_MAXIMO_ARCHIVO}
+      max-request-size: ${KUDOS_MULTIPART_MAXIMO_PETICION}
+  threads:
+    virtual:
+      enabled: true
+
+kudos:
+  entrada:
+    gateway:
+      cabecera: ${KUDOS_GATEWAY_CABECERA}
+      secreto: ${KUDOS_GATEWAY_SECRETO}
+    claims:
+      id: ${KUDOS_CLAIM_ID}
+      nombre: ${KUDOS_CLAIM_NOMBRE}
+      correo: ${KUDOS_CLAIM_CORREO}
+      telefono: ${KUDOS_CLAIM_TELEFONO}
+      roles: ${KUDOS_CLAIM_ROLES}
+  parametros:
+    tamano-maximo-adjunto: ${KUDOS_TAMANO_MAXIMO_ADJUNTO}
+    tipos-de-adjunto-permitidos: ${KUDOS_TIPOS_DE_ADJUNTO_PERMITIDOS}
+    vigencia-enlace-adjunto: ${KUDOS_VIGENCIA_ENLACE_ADJUNTO}
+    ttl-del-feed: ${KUDOS_TTL_DEL_FEED}
+    tamano-de-pagina: ${KUDOS_TAMANO_DE_PAGINA}
+    tamano-maximo-de-pagina: ${KUDOS_TAMANO_MAXIMO_DE_PAGINA}
+    lote-del-relevo: ${KUDOS_LOTE_DEL_RELEVO}
+  relevo:
+    habilitado: ${KUDOS_RELEVO_HABILITADO}
+    intervalo: ${KUDOS_RELEVO_INTERVALO}
+  azure:
+    blob-endpoint: ${KUDOS_BLOB_ENDPOINT}
+    contenedor-adjuntos: ${KUDOS_BLOB_CONTENEDOR}
+    tabla-endpoint: ${KUDOS_TABLA_ENDPOINT}
+    tabla-auditoria: ${KUDOS_TABLA_AUDITORIA}
+    event-grid-endpoint: ${KUDOS_EVENT_GRID_ENDPOINT}
+    event-grid-fuente: ${KUDOS_EVENT_GRID_FUENTE}
+
+server:
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true

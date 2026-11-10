@@ -1,0 +1,36 @@
+# Valores de prueba para las variables de entorno de application.yaml (en producción las pone Juan en el portal).
+# PostgreSQL y Redis los reemplazan los contenedores de Testcontainers (@ServiceConnection).
+KUDOS_DB_URL: jdbc:postgresql://reemplazado-por-testcontainers/kudos
+KUDOS_DB_USUARIO: prueba
+KUDOS_DB_CLAVE: prueba
+KUDOS_REDIS_HOST: reemplazado-por-testcontainers
+KUDOS_REDIS_PUERTO: 6379
+KUDOS_REDIS_CLAVE: ""
+KUDOS_REDIS_TLS: false
+KUDOS_REDIS_TIEMPO_LIMITE: 2s
+KUDOS_JWT_ISSUER_URI: https://emisor.invalid/
+KUDOS_JWT_AUDIENCIA: api://kudos-prueba
+KUDOS_MULTIPART_MAXIMO_ARCHIVO: 1MB
+KUDOS_MULTIPART_MAXIMO_PETICION: 2MB
+KUDOS_GATEWAY_CABECERA: X-Kudos-Gateway
+KUDOS_GATEWAY_SECRETO: secreto-de-prueba
+KUDOS_CLAIM_ID: oid
+KUDOS_CLAIM_NOMBRE: name
+KUDOS_CLAIM_CORREO: emails
+KUDOS_CLAIM_TELEFONO: phone_number
+KUDOS_CLAIM_ROLES: roles
+KUDOS_TAMANO_MAXIMO_ADJUNTO: 512KB
+KUDOS_TIPOS_DE_ADJUNTO_PERMITIDOS: PNG,JPEG,PDF
+KUDOS_VIGENCIA_ENLACE_ADJUNTO: 10m
+KUDOS_TTL_DEL_FEED: 30s
+KUDOS_TAMANO_DE_PAGINA: 10
+KUDOS_TAMANO_MAXIMO_DE_PAGINA: 50
+KUDOS_LOTE_DEL_RELEVO: 20
+KUDOS_RELEVO_HABILITADO: false
+KUDOS_RELEVO_INTERVALO: 1s
+KUDOS_BLOB_ENDPOINT: https://cuentaprueba.blob.core.windows.net
+KUDOS_BLOB_CONTENEDOR: adjuntos
+KUDOS_TABLA_ENDPOINT: https://cuentaprueba.table.core.windows.net
+KUDOS_TABLA_AUDITORIA: auditoria
+KUDOS_EVENT_GRID_ENDPOINT: https://topico-prueba.eastus-1.eventgrid.azure.net/api/events
+KUDOS_EVENT_GRID_FUENTE: /uco/kudos-service

@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.co.uco.kudosbackenducois2</groupId>
+    <groupId>co.edu.uco</groupId>
     <artifactId>KudosBackEndUCOIS2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>KudosBackEndUCOIS2</name>
@@ -33,6 +33,14 @@
         <json-smart.version>2.6.1</json-smart.version>
         <asm.version>9.11.1</asm.version>
         <org-json.version>20260814</org-json.version>
+        <!-- Jackson 3.3 exige annotations 2.23; el BOM de Jackson 2 de Boot fija 2.21 (NoClassDefFoundError JsonApplyView) -->
+        <jackson-annotations.version>2.23</jackson-annotations.version>
+
+        <!-- Azure SDK: el azure-sdk-bom va rezagado; estas cuatro se alinean en azure-core 1.61.0 -->
+        <azure-identity.version>1.19.0</azure-identity.version>
+        <azure-storage-blob.version>12.37.2</azure-storage-blob.version>
+        <azure-data-tables.version>12.6.1</azure-data-tables.version>
+        <azure-messaging-eventgrid.version>4.32.1</azure-messaging-eventgrid.version>
 
         <!-- Versiones que Spring Boot no administra -->
         <archunit.version>1.5.1</archunit.version>
@@ -48,6 +56,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-annotations.version}</version>
+            </dependency>
             <!-- Boot no administra ASM (llega por json-smart → accessors-smart) -->
             <dependency>
                 <groupId>org.ow2.asm</groupId>
@@ -97,6 +110,34 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Caché del feed: Azure Managed Redis (ADR-017) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- Azure: identidad administrada, adjuntos (Blob), auditoría (Table) y broker (Event Grid) -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>${azure-identity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+            <version>${azure-storage-blob.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-data-tables</artifactId>
+            <version>${azure-data-tables.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-messaging-eventgrid</artifactId>
+            <version>${azure-messaging-eventgrid.version}</version>
+        </dependency>
+
         <!-- Salud y métricas (/actuator/health) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -111,7 +152,7 @@
         </dependency>
 
         <!-- Pruebas: JUnit 6, AssertJ, Mockito (vienen con los starters de prueba).
-             El android-json (CVE sin parche, abandonado) se cambia por org.json, misma API para JSONassert. -->
+             android-json (CVE sin parche, abandonado) se cambia por org.json, misma API para JSONassert. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
@@ -168,7 +209,7 @@
         </dependency>
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5</artifactId>
+            <artifactId>archunit</artifactId>
             <version>${archunit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -179,6 +220,15 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Mockito como agente (Java 21+ avisa contra la carga dinámica); @{argLine} conserva el agente de JaCoCo -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar -Xshare:off</argLine>
+                </configuration>
             </plugin>
 
             <!-- Cobertura para el quality gate de SonarQube Cloud -->
