@@ -48,8 +48,8 @@
         <sonar-maven-plugin.version>5.8.0.7211</sonar-maven-plugin.version>
 
         <!-- SonarQube Cloud (paso 2 · CI) -->
-        <sonar.organization>uco-kudos</sonar.organization>
-        <sonar.projectKey>uco-kudos_KudosBackEndUCOIS2</sonar.projectKey>
+        <sonar.organization>juanpabloavendano</sonar.organization>
+        <sonar.projectKey>JuanPabloAvendano_KudosBackEndUCOIS2</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
