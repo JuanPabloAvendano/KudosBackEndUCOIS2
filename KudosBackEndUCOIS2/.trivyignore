@@ -1,0 +1,4 @@
+# CVE-2026-109518 (apt / libapt-pkg7.0 3.2.0, imagen base Ubuntu 26.04).
+# No alcanzable en ejecución: apt solo se usa al construir; la app corre como usuario kudos (sin root) y nunca invoca apt.
+# La corrección 3.2.1ubuntu0.1 aún no llega al archivo. Revisar el 2026-11-20.
+CVE-2026-109518
