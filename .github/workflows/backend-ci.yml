@@ -73,7 +73,7 @@ jobs:
           ignore-unfixed: true
           exit-code: '1'
           version: 'v0.76.2'
-
+          trivyignores: 'KudosBackEndUCOIS2/.trivyignore'
       - name: Login en GHCR
         if: github.event_name != 'pull_request'
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
