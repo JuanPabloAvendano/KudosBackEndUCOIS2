@@ -9,7 +9,7 @@ import co.edu.uco.kudos.dominio.usuario.Rol;
 import co.edu.uco.kudos.dominio.usuario.Usuario;
 import org.junit.jupiter.api.Test;
 
-/** Pruebas de los casos de uso cortos: registrar usuario y consultar categorías. */
+/** Pruebas de los casos de uso cortos: registrar usuario, consultar categorías y usuarios, y conexión push. */
 class CasosSencillosTest {
 
     @Test
@@ -36,5 +36,21 @@ class CasosSencillosTest {
 
         assertThat(new ConsultarCategoriasCasoUsoImpl(categorias).ejecutar()).extracting(Categoria::nombre)
                 .containsExactly("A");
+    }
+
+    @Test
+    void consultaLosUsuariosRegistradosPorNombre() {
+        Dobles.Usuarios usuarios = new Dobles.Usuarios().con(Dobles.usuario("Luis"), Dobles.usuario("Ana"));
+
+        assertThat(new ConsultarUsuariosCasoUsoImpl(usuarios).ejecutar()).extracting(Usuario::nombre)
+                .containsExactly("Ana", "Luis");
+    }
+
+    @Test
+    void laConexionPushEsLaDelUsuarioQueLaPide() {
+        Usuario ana = Dobles.usuario("Ana");
+
+        assertThat(new ObtenerConexionPushCasoUsoImpl(new Dobles.Push()).ejecutar(ana.id()))
+                .endsWith("user=" + ana.id().valor());
     }
 }

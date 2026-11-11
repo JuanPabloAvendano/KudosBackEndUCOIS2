@@ -7,7 +7,9 @@ import co.edu.uco.kudos.infraestructura.output.repositorios.estructurados.jpa.en
 import co.edu.uco.kudos.infraestructura.output.repositorios.estructurados.mapper.UsuarioEntidadMapper;
 import co.edu.uco.kudos.servicios.output.ports.repositorios.entidades.UsuarioRepositorio;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.Reloj;
+import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 /** Usuarios en PostgreSQL: inserta al nuevo o actualiza sus datos con los del token. */
@@ -27,6 +29,11 @@ public class UsuarioRepositorioAdapter implements UsuarioRepositorio {
     @Override
     public Optional<Usuario> porId(UsuarioId id) {
         return jpa.findById(id.valor()).map(mapper::aDominio);
+    }
+
+    @Override
+    public List<Usuario> todos() {
+        return jpa.findAll(Sort.by("nombre")).stream().map(mapper::aDominio).toList();
     }
 
     @Override

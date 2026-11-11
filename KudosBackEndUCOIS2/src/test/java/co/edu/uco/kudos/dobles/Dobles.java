@@ -20,6 +20,7 @@ import co.edu.uco.kudos.servicios.output.ports.repositorios.entidades.OutboxRepo
 import co.edu.uco.kudos.servicios.output.ports.repositorios.UnidadDeTrabajo;
 import co.edu.uco.kudos.servicios.output.ports.repositorios.entidades.UsuarioRepositorio;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.CatalogoDeParametros;
+import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.ConexionesPush;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.PublicadorDeEventos;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.Reloj;
 import java.io.IOException;
@@ -71,9 +72,21 @@ public final class Dobles {
         }
 
         @Override
+        public List<Usuario> todos() {
+            return filas.values().stream().sorted(Comparator.comparing(Usuario::nombre)).toList();
+        }
+
+        @Override
         public void guardar(Usuario usuario) {
             guardados++;
             filas.put(usuario.id(), usuario);
+        }
+    }
+
+    public static class Push implements ConexionesPush {
+        @Override
+        public String urlDeConexion(UsuarioId usuario) {
+            return "wss://push.invalid/client/hubs/kudos?user=" + usuario.valor();
         }
     }
 

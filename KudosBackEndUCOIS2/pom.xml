@@ -40,11 +40,12 @@
         <!-- CVE-2026-119078: Boot 4.1.2 trae 1.21.0 (solo pruebas, vía Testcontainers) -->
         <commons-codec.version>1.23.0</commons-codec.version>
 
-        <!-- Azure SDK: el azure-sdk-bom va rezagado; estas cuatro se alinean en azure-core 1.61.0 -->
+        <!-- Azure SDK: el azure-sdk-bom va rezagado; estas cinco se alinean en azure-core 1.61.0 -->
         <azure-identity.version>1.19.0</azure-identity.version>
         <azure-storage-blob.version>12.37.2</azure-storage-blob.version>
         <azure-data-tables.version>12.6.1</azure-data-tables.version>
         <azure-messaging-eventgrid.version>4.32.1</azure-messaging-eventgrid.version>
+        <azure-messaging-webpubsub.version>1.6.1</azure-messaging-webpubsub.version>
 
         <!-- Versiones que Spring Boot no administra -->
         <archunit.version>1.5.1</archunit.version>
@@ -141,6 +142,12 @@
             <groupId>com.azure</groupId>
             <artifactId>azure-messaging-eventgrid</artifactId>
             <version>${azure-messaging-eventgrid.version}</version>
+        </dependency>
+        <!-- Push en tiempo real: URL de cliente de Web PubSub con la identidad administrada -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-messaging-webpubsub</artifactId>
+            <version>${azure-messaging-webpubsub.version}</version>
         </dependency>
 
         <!-- Salud y métricas (/actuator/health) -->

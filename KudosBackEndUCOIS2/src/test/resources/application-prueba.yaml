@@ -34,3 +34,5 @@ KUDOS_TABLA_ENDPOINT: https://cuentaprueba.table.core.windows.net
 KUDOS_TABLA_AUDITORIA: auditoria
 KUDOS_EVENT_GRID_ENDPOINT: https://topico-prueba.eastus-1.eventgrid.azure.net/api/events
 KUDOS_EVENT_GRID_FUENTE: /uco/kudos-service
+KUDOS_WEBPUBSUB_ENDPOINT: https://webpubsub-prueba.invalid
+KUDOS_WEBPUBSUB_HUB: kudos

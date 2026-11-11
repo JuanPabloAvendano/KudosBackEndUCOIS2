@@ -2,11 +2,15 @@ package co.edu.uco.kudos;
 
 import co.edu.uco.kudos.servicios.casosuso.ConsultarCategoriasCasoUso;
 import co.edu.uco.kudos.servicios.casosuso.ConsultarFeedCasoUso;
+import co.edu.uco.kudos.servicios.casosuso.ConsultarUsuariosCasoUso;
+import co.edu.uco.kudos.servicios.casosuso.ObtenerConexionPushCasoUso;
 import co.edu.uco.kudos.servicios.casosuso.PublicarEventosPendientesCasoUso;
 import co.edu.uco.kudos.servicios.casosuso.PublicarKudoCasoUso;
 import co.edu.uco.kudos.servicios.casosuso.RegistrarUsuarioDesdeIdentidadCasoUso;
 import co.edu.uco.kudos.servicios.casosuso.impl.ConsultarCategoriasCasoUsoImpl;
 import co.edu.uco.kudos.servicios.casosuso.impl.ConsultarFeedCasoUsoImpl;
+import co.edu.uco.kudos.servicios.casosuso.impl.ConsultarUsuariosCasoUsoImpl;
+import co.edu.uco.kudos.servicios.casosuso.impl.ObtenerConexionPushCasoUsoImpl;
 import co.edu.uco.kudos.servicios.casosuso.impl.EfectosPosteriores;
 import co.edu.uco.kudos.servicios.casosuso.impl.PreparacionDelKudo;
 import co.edu.uco.kudos.servicios.casosuso.impl.PublicarEventosPendientesCasoUsoImpl;
@@ -14,10 +18,14 @@ import co.edu.uco.kudos.servicios.casosuso.impl.PublicarKudoCasoUsoImpl;
 import co.edu.uco.kudos.servicios.casosuso.impl.RegistrarUsuarioDesdeIdentidadCasoUsoImpl;
 import co.edu.uco.kudos.servicios.input.adapter.ConsultarCategoriasInputAdapter;
 import co.edu.uco.kudos.servicios.input.adapter.ConsultarFeedInputAdapter;
+import co.edu.uco.kudos.servicios.input.adapter.ConsultarUsuariosInputAdapter;
+import co.edu.uco.kudos.servicios.input.adapter.ObtenerConexionPushInputAdapter;
 import co.edu.uco.kudos.servicios.input.adapter.PublicarEventosPendientesInputAdapter;
 import co.edu.uco.kudos.servicios.input.adapter.PublicarKudoInputAdapter;
 import co.edu.uco.kudos.servicios.input.ports.ConsultarCategoriasInputPort;
 import co.edu.uco.kudos.servicios.input.ports.ConsultarFeedInputPort;
+import co.edu.uco.kudos.servicios.input.ports.ConsultarUsuariosInputPort;
+import co.edu.uco.kudos.servicios.input.ports.ObtenerConexionPushInputPort;
 import co.edu.uco.kudos.servicios.input.ports.PublicarEventosPendientesInputPort;
 import co.edu.uco.kudos.servicios.input.ports.PublicarKudoInputPort;
 import co.edu.uco.kudos.servicios.output.adapter.EventoKudoPublicadoOutputAdapter;
@@ -32,6 +40,7 @@ import co.edu.uco.kudos.servicios.output.ports.repositorios.entidades.OutboxRepo
 import co.edu.uco.kudos.servicios.output.ports.repositorios.UnidadDeTrabajo;
 import co.edu.uco.kudos.servicios.output.ports.repositorios.entidades.UsuarioRepositorio;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.CatalogoDeParametros;
+import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.ConexionesPush;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.PublicadorDeEventos;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.Reloj;
 import org.springframework.context.annotation.Bean;
@@ -95,6 +104,16 @@ public class ConfiguracionDeServicios {
     }
 
     @Bean
+    ConsultarUsuariosCasoUso consultarUsuariosCasoUso(UsuarioRepositorio usuarios) {
+        return new ConsultarUsuariosCasoUsoImpl(usuarios);
+    }
+
+    @Bean
+    ObtenerConexionPushCasoUso obtenerConexionPushCasoUso(ConexionesPush conexiones) {
+        return new ObtenerConexionPushCasoUsoImpl(conexiones);
+    }
+
+    @Bean
     PublicarKudoInputPort publicarKudoInputPort(RegistrarUsuarioDesdeIdentidadCasoUso registrar,
             PublicarKudoCasoUso publicar) {
         return new PublicarKudoInputAdapter(registrar, publicar);
@@ -109,6 +128,18 @@ public class ConfiguracionDeServicios {
     @Bean
     ConsultarCategoriasInputPort consultarCategoriasInputPort(ConsultarCategoriasCasoUso consultar) {
         return new ConsultarCategoriasInputAdapter(consultar);
+    }
+
+    @Bean
+    ConsultarUsuariosInputPort consultarUsuariosInputPort(RegistrarUsuarioDesdeIdentidadCasoUso registrar,
+            ConsultarUsuariosCasoUso consultar) {
+        return new ConsultarUsuariosInputAdapter(registrar, consultar);
+    }
+
+    @Bean
+    ObtenerConexionPushInputPort obtenerConexionPushInputPort(RegistrarUsuarioDesdeIdentidadCasoUso registrar,
+            ObtenerConexionPushCasoUso obtener) {
+        return new ObtenerConexionPushInputAdapter(registrar, obtener);
     }
 
     @Bean

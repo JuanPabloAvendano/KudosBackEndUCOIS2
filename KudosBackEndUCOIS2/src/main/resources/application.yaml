@@ -64,6 +64,8 @@ kudos:
     tabla-auditoria: ${KUDOS_TABLA_AUDITORIA}
     event-grid-endpoint: ${KUDOS_EVENT_GRID_ENDPOINT}
     event-grid-fuente: ${KUDOS_EVENT_GRID_FUENTE}
+    web-pub-sub-endpoint: ${KUDOS_WEBPUBSUB_ENDPOINT}
+    web-pub-sub-hub: ${KUDOS_WEBPUBSUB_HUB}
 
 server:
   shutdown: graceful

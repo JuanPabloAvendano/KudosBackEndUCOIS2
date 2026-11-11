@@ -3,14 +3,17 @@ package co.edu.uco.kudos.infraestructura.output;
 import co.edu.uco.kudos.infraestructura.output.mensajeria.productores.EventGridPublicadorAdapter;
 import co.edu.uco.kudos.infraestructura.output.repositorios.noestructurados.AlmacenAdjuntosBlobAdapter;
 import co.edu.uco.kudos.infraestructura.output.repositorios.semiestructurados.AuditoriaTableAdapter;
+import co.edu.uco.kudos.infraestructura.output.serviciosexternos.push.WebPubSubConexionesAdapter;
 import co.edu.uco.kudos.servicios.output.ports.repositorios.AlmacenAdjuntos;
 import co.edu.uco.kudos.servicios.output.ports.repositorios.Auditoria;
+import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.ConexionesPush;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.PublicadorDeEventos;
 import co.edu.uco.kudos.servicios.output.ports.serviciosexternos.Reloj;
 import com.azure.core.credential.TokenCredential;
 import com.azure.data.tables.TableClientBuilder;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.messaging.eventgrid.EventGridPublisherClientBuilder;
+import com.azure.messaging.webpubsub.WebPubSubServiceClientBuilder;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +30,8 @@ public class ClientesAzure {
     /** Endpoints y nombres de los recursos de Azure (los pone Juan en el portal, ADR-003). */
     @ConfigurationProperties("kudos.azure")
     public record PropiedadesAzure(String blobEndpoint, String contenedorAdjuntos, String tablaEndpoint,
-            String tablaAuditoria, String eventGridEndpoint, String eventGridFuente) {
+            String tablaAuditoria, String eventGridEndpoint, String eventGridFuente, String webPubSubEndpoint,
+            String webPubSubHub) {
     }
 
     @Bean
@@ -52,5 +56,11 @@ public class ClientesAzure {
         return new EventGridPublicadorAdapter(new EventGridPublisherClientBuilder()
                 .endpoint(azure.eventGridEndpoint()).credential(credencial).buildCloudEventPublisherClient(),
                 azure.eventGridFuente(), json);
+    }
+
+    @Bean
+    ConexionesPush conexionesPush(PropiedadesAzure azure, TokenCredential credencial) {
+        return new WebPubSubConexionesAdapter(new WebPubSubServiceClientBuilder().endpoint(azure.webPubSubEndpoint())
+                .hub(azure.webPubSubHub()).credential(credencial).buildClient());
     }
 }

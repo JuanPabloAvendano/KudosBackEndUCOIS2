@@ -19,9 +19,11 @@ import co.edu.uco.kudos.servicios.casosuso.SolicitudDePublicacion;
 import co.edu.uco.kudos.servicios.input.dto.request.AdjuntoRequest;
 import co.edu.uco.kudos.servicios.input.dto.request.IdentidadRequest;
 import co.edu.uco.kudos.servicios.input.dto.request.PublicarKudoRequest;
+import co.edu.uco.kudos.servicios.input.dto.response.ConexionPushResponse;
 import co.edu.uco.kudos.servicios.input.dto.response.KudoResponse;
 import co.edu.uco.kudos.servicios.input.dto.response.PaginaResponse;
 import co.edu.uco.kudos.servicios.input.dto.response.PublicarKudoResponse;
+import co.edu.uco.kudos.servicios.input.dto.response.UsuarioResponse;
 import co.edu.uco.kudos.transversal.Pagina;
 import java.io.ByteArrayInputStream;
 import java.time.Instant;
@@ -102,6 +104,33 @@ class InputAdaptersTest {
         });
         assertThat(adapter.consultar(ANA, " ", null).elementos()).hasSize(1);
         assertThat(cursorRecibido.get()).isNull();
+    }
+
+    @Test
+    void usuariosRegistraAQuienConsultaYSoloEntregaIdYNombre() {
+        Usuario luis = Usuario.desdeIdentidad(new UsuarioId(UUID.randomUUID()), "Luis", "luis@uco.edu.co",
+                "+57300", Rol.ESTUDIANTE);
+        ConsultarUsuariosInputAdapter adapter = new ConsultarUsuariosInputAdapter(this::registrar, () -> List.of(luis));
+
+        List<UsuarioResponse> respuesta = adapter.consultar(ANA);
+
+        assertThat(respuesta).containsExactly(new UsuarioResponse(luis.id().valor(), "Luis"));
+        assertThat(registrados).singleElement().satisfies(u -> assertThat(u.id().valor()).isEqualTo(ANA.id()));
+    }
+
+    @Test
+    void pushRegistraAQuienSeConectaYLeDaSuUrl() {
+        AtomicReference<UsuarioId> pedido = new AtomicReference<>();
+        ObtenerConexionPushInputAdapter adapter = new ObtenerConexionPushInputAdapter(this::registrar, usuario -> {
+            pedido.set(usuario);
+            return "wss://push/ana";
+        });
+
+        ConexionPushResponse respuesta = adapter.conectar(ANA);
+
+        assertThat(respuesta.url()).isEqualTo("wss://push/ana");
+        assertThat(pedido.get()).isEqualTo(new UsuarioId(ANA.id()));
+        assertThat(registrados).hasSize(1);
     }
 
     @Test

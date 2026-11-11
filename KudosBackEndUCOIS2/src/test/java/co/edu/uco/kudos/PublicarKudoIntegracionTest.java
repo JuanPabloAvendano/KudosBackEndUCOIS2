@@ -1,6 +1,7 @@
 package co.edu.uco.kudos;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -81,6 +82,12 @@ class PublicarKudoIntegracionTest {
         @Primary
         Dobles.Publicador publicadorDePrueba() {
             return new Dobles.Publicador();
+        }
+
+        @Bean
+        @Primary
+        Dobles.Push pushDePrueba() {
+            return new Dobles.Push();
         }
     }
 
@@ -207,6 +214,18 @@ class PublicarKudoIntegracionTest {
         mvc.perform(conGateway(get("/api/kudos").param("cursor", "manipulado")).with(token(ana, "Ana")))
                 .andExpect(status().isUnprocessableContent())
                 .andExpect(jsonPath("$.codigo").value("CURSOR_INVALIDO"));
+    }
+
+    @Test
+    void listaALosRegistradosYDaLaConexionPushDeQuienLlama() throws Exception {
+        mvc.perform(conGateway(get("/api/usuarios")).with(token(ana, "Ana")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.id == '%s')].nombre", ana).value("Ana"))
+                .andExpect(jsonPath("$[?(@.id == '%s')].nombre", luis).value("Luis"))
+                .andExpect(jsonPath("$[0].correo").doesNotExist());
+        mvc.perform(conGateway(get("/api/push/conexion")).with(token(ana, "Ana")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.url").value(endsWith("user=" + ana)));
     }
 
     @Test

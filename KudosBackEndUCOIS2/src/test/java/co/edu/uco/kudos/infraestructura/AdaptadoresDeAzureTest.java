@@ -12,6 +12,8 @@ import co.edu.uco.kudos.dobles.Dobles;
 import co.edu.uco.kudos.infraestructura.output.mensajeria.productores.EventGridPublicadorAdapter;
 import co.edu.uco.kudos.infraestructura.output.repositorios.noestructurados.AlmacenAdjuntosBlobAdapter;
 import co.edu.uco.kudos.infraestructura.output.repositorios.semiestructurados.AuditoriaTableAdapter;
+import co.edu.uco.kudos.infraestructura.output.serviciosexternos.push.WebPubSubConexionesAdapter;
+import co.edu.uco.kudos.dominio.usuario.UsuarioId;
 import co.edu.uco.kudos.servicios.output.dto.DestinatarioDTO;
 import co.edu.uco.kudos.servicios.output.dto.EventoKudoPublicadoDTO;
 import co.edu.uco.kudos.servicios.output.dto.RegistroAuditoriaDTO;
@@ -19,6 +21,9 @@ import com.azure.core.models.CloudEvent;
 import com.azure.data.tables.TableClient;
 import com.azure.data.tables.models.TableEntity;
 import com.azure.messaging.eventgrid.EventGridPublisherClient;
+import com.azure.messaging.webpubsub.WebPubSubServiceClient;
+import com.azure.messaging.webpubsub.models.GetClientAccessTokenOptions;
+import com.azure.messaging.webpubsub.models.WebPubSubClientAccessToken;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
@@ -108,5 +113,21 @@ class AdaptadoresDeAzureTest {
         assertThat(evento.getSubject()).isEqualTo("kudos/" + EVENTO.kudoId());
         assertThat(evento.getDataContentType()).isEqualTo("application/json");
         assertThat(json.readValue(evento.getData().toString(), EventoKudoPublicadoDTO.class)).isEqualTo(EVENTO);
+    }
+
+    @Test
+    void webPubSubFirmaLaUrlConElIdDelUsuario() {
+        WebPubSubServiceClient cliente = mock(WebPubSubServiceClient.class);
+        WebPubSubClientAccessToken token = mock(WebPubSubClientAccessToken.class);
+        when(token.getUrl()).thenReturn("wss://wps/client/hubs/kudos?access_token=t");
+        when(cliente.getClientAccessToken(any(GetClientAccessTokenOptions.class))).thenReturn(token);
+        UUID id = UUID.randomUUID();
+
+        String url = new WebPubSubConexionesAdapter(cliente).urlDeConexion(new UsuarioId(id));
+
+        assertThat(url).isEqualTo("wss://wps/client/hubs/kudos?access_token=t");
+        ArgumentCaptor<GetClientAccessTokenOptions> opciones = ArgumentCaptor.forClass(GetClientAccessTokenOptions.class);
+        verify(cliente).getClientAccessToken(opciones.capture());
+        assertThat(opciones.getValue().getUserId()).isEqualTo(id.toString());
     }
 }
