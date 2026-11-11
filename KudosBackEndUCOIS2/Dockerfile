@@ -11,7 +11,7 @@ RUN ./mvnw -B -DskipTests package
 FROM eclipse-temurin:27-jre
 LABEL org.opencontainers.image.authors="Juan Pablo Avendaño"
 RUN apt-get update \
- && apt-get upgrade -y --no-install-recommends \
+ && apt-get -o APT::Get::Always-Include-Phased-Updates=true upgrade -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/* \
  && groupadd --system kudos && useradd --system --gid kudos kudos
 WORKDIR /app
