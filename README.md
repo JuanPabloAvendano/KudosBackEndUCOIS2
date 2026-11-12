@@ -90,7 +90,7 @@ La nota amarilla del diagrama guarda tres preguntas que siguen abiertas: si el r
 par de miembros, qué pasa con un Kudo a alguien que nunca ha entrado y la creación del tenant.
 
 ### 3.2 · Diagrama de contenedores
-**Estado:** aceptado (v13, 9-nov-2026).
+**Estado:** aceptado (v14, 12-nov-2026: textos alineados con el despliegue; misma disposición que la v13).
 
 ![C4 nivel 2 · Contenedores](https://raw.githubusercontent.com/JuanPabloAvendano/KudosBackEndUCOIS2/master/docs/Dise%C3%B1o/Alto%20Nivel/Contenedores.jpg)
 

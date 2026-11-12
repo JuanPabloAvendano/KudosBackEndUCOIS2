@@ -67,7 +67,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="titulo" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=18" value="&lt;b&gt;UCO Kudos · C4 nivel 2 · Contenedores&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Borrador v13 · 9-nov-2026 · Juan Pablo Avendaño Duque · ADR-002, 003, 006, 007, 009 a 013, 015, 016 y 017 · infraestructura y SKU en la página Despliegue&lt;/font&gt;" vertex="1">
+        <mxCell id="titulo" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=18" value="&lt;b&gt;UCO Kudos · C4 nivel 2 · Contenedores&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;v14 · 12-nov-2026 · Juan Pablo Avendaño Duque · ADR-002 a 023 · infraestructura y SKU en la página Despliegue&lt;/font&gt;" vertex="1">
           <mxGeometry height="50" width="900" x="230" y="-150" as="geometry" />
         </mxCell>
         <mxCell id="leyenda" parent="1" style="text;html=1;align=left;verticalAlign=top;fontSize=10" value="&lt;b&gt;Leyenda&lt;/b&gt; · título = concepto · [tecnología · proveedor] · descripción = qué hace en el sistema&lt;br&gt;Azul oscuro: aplicación propia (código) · Azul claro: servicio administrado (solo configuración) · Gris: sistema externo&lt;br&gt;Continua: síncrono · Punteada: asíncrono / entrega · &lt;b&gt;1-8: Publicar Kudo · 9-10: recepción del destinatario&lt;/b&gt;" vertex="1">
@@ -82,28 +82,28 @@
         <mxCell id="admin" parent="1" style="html=1;fontSize=10;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;" value="&lt;b&gt;Administrador&lt;/b&gt;&lt;br&gt;[Persona · rol de miembro]&lt;br&gt;&lt;br&gt;Miembro con rol admin: además consulta la auditoría." vertex="1">
           <mxGeometry height="160" width="200" x="-90" y="420" as="geometry" />
         </mxCell>
-        <mxCell id="entra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Identity Provider&lt;/b&gt;&lt;br&gt;[Microsoft Entra External ID]&lt;br&gt;&lt;br&gt;Autentica al usuario y emite el token con su rol." vertex="1">
+        <mxCell id="entra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#8C8496;strokeColor=#736782;fontColor=#ffffff;" value="&lt;b&gt;Identity Provider&lt;/b&gt;&lt;br&gt;[Microsoft Entra ID · tenant workforce]&lt;br&gt;&lt;br&gt;Autentica al usuario y emite el token con su rol (ADR-020)." vertex="1">
           <mxGeometry height="95" width="200" x="790" y="-40" as="geometry" />
         </mxCell>
         <mxCell id="front" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Front web&lt;/b&gt;&lt;br&gt;[SPA Vue 3 + TypeScript]&lt;br&gt;&lt;br&gt;Corre en el celular del miembro: publica, lee y recibe Kudos (ADR-002). Todas sus llamadas pasan por el WAF." vertex="1">
           <mxGeometry height="130" width="210" x="270" y="220" as="geometry" />
         </mxCell>
-        <mxCell id="frontdoor" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;WAF&lt;/b&gt;&lt;br&gt;[Azure Front Door + política WAF]&lt;br&gt;&lt;br&gt;Única entrada pública: reglas WAF personalizadas (tasa, IP, geo; sin OWASP), TLS; enruta /api/* al API Gateway con la cabecera X-Azure-FDID y entrega el front (CDN)." vertex="1">
+        <mxCell id="frontdoor" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;WAF&lt;/b&gt;&lt;br&gt;[ModSecurity + OWASP CRS · Container Apps]&lt;br&gt;&lt;br&gt;Única entrada pública de la API: bloquea inyección, XSS, traversal y escáneres con OWASP CRS y reenvía /api/* al API Gateway (ADR-023). Front Door no está disponible en Azure for Students." vertex="1">
           <mxGeometry height="140" width="250" x="620" y="155" as="geometry" />
         </mxCell>
-        <mxCell id="apim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;[Azure API Management]&lt;br&gt;&lt;br&gt;validate-jwt (OIDC de Entra External ID), cuotas por usuario; enruta a kudos-service con la cabecera secreta (ADR-013). Rechaza lo que no trae la X-Azure-FDID de Front Door." vertex="1">
+        <mxCell id="apim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;[Azure API Management]&lt;br&gt;&lt;br&gt;validate-jwt (OIDC de Entra ID) y CORS solo para el front; enruta a kudos-service con la cabecera secreta (ADR-013)." vertex="1">
           <mxGeometry height="130" width="260" x="1000" y="155" as="geometry" />
         </mxCell>
         <mxCell id="pubsub" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Real-time Push&lt;/b&gt;&lt;br&gt;[Azure Web PubSub]&lt;br&gt;&lt;br&gt;Entrega al instante el aviso del Kudo nuevo al destinatario conectado (Free: 20 conexiones)." vertex="1">
           <mxGeometry height="130" width="240" x="1370" y="155" as="geometry" />
         </mxCell>
-        <mxCell id="kudos" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Servicio de Kudos&lt;/b&gt;&lt;br&gt;[Java 21 · Spring Boot · contenedor]&lt;br&gt;&lt;br&gt;Núcleo de negocio (hexagonal): valida el JWT y la cabecera del gateway (ADR-013); guarda el Kudo con su outbox y lo audita, publica KudoPublicado con el relevo @Scheduled (ADR-010), sirve el feed con SAS de los adjuntos y la auditoría al admin, entrega la URL del Real-time Push." vertex="1">
+        <mxCell id="kudos" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#1061B0;strokeColor=#0D5091;fontColor=#ffffff;" value="&lt;b&gt;Servicio de Kudos&lt;/b&gt;&lt;br&gt;[Java 27 · Spring Boot 4.1 · contenedor]&lt;br&gt;&lt;br&gt;Núcleo de negocio (hexagonal): valida otra vez el JWT con las llaves públicas de Entra (JWKS) y la cabecera del gateway (ADR-013); guarda el Kudo con su outbox y lo audita, publica KudoPublicado con el relevo @Scheduled (ADR-010), sirve el feed con SAS de los adjuntos y la auditoría al admin, entrega la URL del Real-time Push." vertex="1">
           <mxGeometry height="190" width="260" x="940" y="380" as="geometry" />
         </mxCell>
         <mxCell id="keyvault" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Key Vault&lt;/b&gt;&lt;br&gt;[Azure Key Vault]&lt;br&gt;&lt;br&gt;Guarda secretos (Twilio, cabecera del gateway); kudos-service y el API Gateway los leen con su identidad (ADR-003, ADR-013)." vertex="1">
           <mxGeometry height="95" width="220" x="1450" y="505" as="geometry" />
         </mxCell>
-        <mxCell id="appconfig" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Parameter Catalog&lt;/b&gt;&lt;br&gt;[Azure App Configuration]&lt;br&gt;&lt;br&gt;Valores configurables sin tocar código: límites, plantillas, nombre del topic (ADR-003)." vertex="1">
+        <mxCell id="appconfig" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Parameter Catalog&lt;/b&gt;&lt;br&gt;[Variables de entorno de Container Apps]&lt;br&gt;&lt;br&gt;Valores configurables sin tocar código: límites, tamaños de página, TTL del feed; secretos desde Key Vault (ADR-003, ADR-019)." vertex="1">
           <mxGeometry height="95" width="220" x="470" y="505" as="geometry" />
         </mxCell>
         <mxCell id="redis" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Caché&lt;/b&gt;&lt;br&gt;[Azure Managed Redis]&lt;br&gt;&lt;br&gt;Guarda el feed más leído para responder rápido (QA-1, ADR-017); se borra al publicar + TTL (ADR-011)." vertex="1">
@@ -112,7 +112,7 @@
         <mxCell id="blob" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Blob Storage&lt;/b&gt;&lt;br&gt;[Azure Blob Storage · contenedor adjuntos]&lt;br&gt;&lt;br&gt;Guarda los adjuntos; el front los descarga con SAS de delegación de usuario (5-15 min)." vertex="1">
           <mxGeometry height="90" width="240" x="610" y="340" as="geometry" />
         </mxCell>
-        <mxCell id="insights" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Observabilidad&lt;/b&gt;&lt;br&gt;[Application Insights + Log Analytics]&lt;br&gt;&lt;br&gt;Reúne trazas, métricas y logs con id de correlación de kudos-service, la Logic App y el diagnóstico de los demás recursos Azure (ver despliegue). Alertas y health." vertex="1">
+        <mxCell id="insights" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;arcSize=10;align=center;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Observabilidad&lt;/b&gt;&lt;br&gt;[Log Analytics + Grafana en Azure Monitor]&lt;br&gt;&lt;br&gt;Reúne logs y métricas de kudos-service, el WAF, la Logic App y los demás recursos Azure en un tablero de Grafana; health de kudos-service. Trazas distribuidas a futuro (ADR-018)." vertex="1">
           <mxGeometry height="160" width="260" x="350" y="670" as="geometry" />
         </mxCell>
         <mxCell id="postgres" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;size=10;fontSize=10;fillColor=#23A2D9;strokeColor=#0E7DAD;fontColor=#ffffff;" value="&lt;b&gt;Base de datos&lt;/b&gt;&lt;br&gt;[Azure Database for PostgreSQL]&lt;br&gt;&lt;br&gt;Fuente de verdad: Kudos, usuarios y outbox." vertex="1">
@@ -164,13 +164,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e5" edge="1" parent="1" source="frontdoor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;exitX=0;exitY=0.8;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;" target="front" value="Entrega los archivos del front&lt;br&gt;[HTTPS, CDN]">
+        <mxCell id="e5" edge="1" parent="1" source="frontdoor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;exitX=0;exitY=0.8;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;" target="front" value="Sin CDN (R-04)&lt;br&gt;[HTTPS]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e6" edge="1" parent="1" source="front" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.35;entryDx=0;entryDy=0;" target="frontdoor" value="1. Publica / lee Kudos&lt;br&gt;[HTTPS/REST + JWT]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e7" edge="1" parent="1" source="frontdoor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" target="apim" value="2. Enruta /api/*&lt;br&gt;[HTTPS + X-Azure-FDID]">
+        <mxCell id="e7" edge="1" parent="1" source="frontdoor" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" target="apim" value="2. Enruta /api/*&lt;br&gt;[HTTPS]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e8" edge="1" parent="1" source="apim" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kudos" value="3. Enruta [HTTPS + cabecera secreta]">
@@ -252,7 +252,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e21" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0;exitY=0.908;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="appconfig" value="Lee parámetros [HTTPS]">
+        <mxCell id="e21" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0;exitY=0.908;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="appconfig" value="Lee parámetros [variables de entorno]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e22" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=1;exitY=0.237;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="redis" value="Lee/escribe feed [RESP/TLS]">
@@ -261,7 +261,7 @@
         <mxCell id="e23" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;exitX=0.85;exitY=1;exitDx=0;exitDy=0;entryX=0.85;entryY=0;entryDx=0;entryDy=0;" target="table" value="Escribe y lee auditoría&lt;br&gt;[HTTPS, SDK]">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e24" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="insights" value="Telemetría [OTLP/HTTPS]">
+        <mxCell id="e24" edge="1" parent="1" source="kudos" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;endArrow=blockThin;endFill=1;strokeColor=#707070;fontColor=#404040;labelBackgroundColor=#ffffff;dashed=1;" target="insights" value="Logs [salida estándar]">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="966" y="630" />
