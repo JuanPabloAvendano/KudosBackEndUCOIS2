@@ -154,7 +154,7 @@ El ABB es la capacidad que el sistema necesita, sin marca; el SBB es el producto
 | 18 | Service Mesh | Ingress Envoy de Container Apps (sin mTLS en Express) | A | 008, 018 | Con límites: sin mTLS en Express |
 | 19 | Gestor de secretos | Azure Key Vault | A | 003, 013, 018 | Con límites: tres secretos copiados en la app (R-02) |
 | 20 | Parameter Catalog | Variables de entorno de Container Apps (App Configuration a futuro) | A | 003, 019 | Desplegado |
-| 21 | Observabilidad | Log Analytics + tablero Grafana en Azure Monitor (métricas y logs de los 9 recursos; Application Insights a futuro) | A | 018 | Con límites: sin trazas ni correlationId en el log (R-13) |
+| 21 | Observabilidad | Log Analytics + tablero Grafana en Azure Monitor (métricas y logs de los 9 recursos; Application Insights a futuro) | A | 018 | Con límites: sin trazas distribuidas (R-13) |
 | 22 | Pipeline CI/CD | GitHub Actions + OIDC | E | 014 | Desplegado |
 | 23 | Análisis estático | SonarQube Cloud | E | 014 | Desplegado |
 | 24 | Escáner de vulnerabilidades | Trivy | E | 014 | Desplegado |
@@ -338,7 +338,7 @@ anterior queda reemplazada o precisada. Todas las decide Juan Pablo Avendaño Du
 | R-10 | Una sola región, sin zonas | Caída regional | Infraestructura documentada y recreable | Zonas o región secundaria |
 | R-11 | Auditoría borrable por el rol de datos | Error de permisos | La Logic App solo inserta | Almacenamiento inmutable |
 | R-12 | Redis caído vuelve lento el feed | Corte de Redis | El feed sale de PostgreSQL | Timeout corto y *circuit breaker* |
-| R-13 | El log no imprime el correlationId | Investigar un fallo | El id viaja en cabeceras, evento y auditoría | Patrón de log con el id y Application Insights |
+| R-13 | Sin trazas distribuidas (Express no trae el agente) | Investigar un fallo entre servicios | correlationId en cada línea del log, en las cabeceras, el evento y la auditoría | Application Insights |
 | R-14 | Costo fijo de Managed Redis | Pasar el presupuesto | Alertas; borrar Redis después de la entrega | Caché por réplica si la carga lo permite |
 
 **Escenarios futuros** (qué cambia si llegan, sin rehacer la arquitectura):
@@ -368,7 +368,7 @@ administrada.
 | A06 Componentes vulnerables | Trivy bloquea HIGH y CRITICAL; CVE de Jackson y commons-codec corregidas en el pom | `backend-ci.yml` |
 | A07 Autenticación | Entra ID con MSAL; issuer y audiencia validados. Falta forzar MFA (plan gratuito) | `validate-jwt` |
 | A08 Integridad | Acciones fijadas por SHA, despliegue con OIDC, imagen con el SHA del commit, aprobación manual | `backend-ci.yml` |
-| A09 Registro y monitoreo | Auditoría por canal; logs en Log Analytics. Falta el correlationId en el log y alertas (R-13) | `RelevoOutbox` |
+| A09 Registro y monitoreo | Auditoría por canal; logs en Log Analytics; alertas de Azure Monitor por dead-letter y ejecuciones fallidas; correlationId en cada línea del log | `RelevoOutbox` |
 | A10 SSRF | El back nunca descarga URLs del usuario | — |
 
 **Validaciones e integraciones con terceros.** Las entradas se validan en el dominio (reglas con `ReglaIncumplida`,
@@ -395,7 +395,7 @@ asigna el administrador). Zero Trust parcial: verificación explícita y mínimo
 | VIII · Concurrencia | Cumple | Escala por réplicas (1 a 3); el relevo usa `for update skip locked` para que dos réplicas no tomen el mismo evento |
 | IX · Desechabilidad | Parcial | Se puede matar y recrear cualquier réplica, pero el arranque en frío tras escalar a cero da 503 (R-03) |
 | X · Paridad dev/prod | Parcial | Las pruebas usan PostgreSQL 18 y Redis 8 reales (Testcontainers), pero en local el token es propio, no de Entra |
-| XI · Logs | Cumple | Salida estándar recogida por Log Analytics y visible en Grafana; falta imprimir el correlationId (R-13) |
+| XI · Logs | Cumple | Salida estándar recogida por Log Analytics y visible en Grafana, con el correlationId en cada línea |
 | XII · Procesos de administración | Cumple | Las migraciones de la base corren con Flyway al arrancar, versionadas junto al código |
 
 - **Sistema reactivo:** responsivo (publicar no espera canales), resiliente (outbox, dead-letter, idempotencia por
@@ -415,7 +415,8 @@ asigna el administrador). Zero Trust parcial: verificación explícita y mínimo
 - **Observabilidad:** sondas `/actuator/health/liveness` y `/readiness`; logs en Log Analytics; tablero de Grafana en
   Azure Monitor (`docs/evidencia/grafana-kudos.json`) con el resumen del flujo, ataques bloqueados por el WAF, APIM,
   kudos-service, Event Grid (publicados, entregados, dead-letter), Logic App, Web PubSub, PostgreSQL, Redis y Blob;
-  correlationId en cabecera, evento y auditoría.
+  alertas por dead-letter y ejecuciones fallidas; correlationId en cabecera, evento, auditoría y cada línea del log
+  (`LOGGING_PATTERN_LEVEL`).
 
 ## 8 · CI/CD y pruebas
 > «Un pull request nunca despliega: solo `master`, después de Sonar y Trivy y con mi aprobación.» (ADR-014)
@@ -518,7 +519,7 @@ prueba de Twilio solo manda plantillas fijas. Buena parte del esfuerzo se fue en
   caché del feed (cache-aside) no salió solo: la documentación va por delante de lo que sabe defender de memoria.
 - Las pruebas quedaron cortas frente a lo diseñado: sin mutación (PIT), la pirámide sin revisar y sin pruebas nacidas
   de los hallazgos adversarios.
-- Observabilidad a medias: hay tablero, pero faltan las alertas y el correlationId en el log que pide su propio QA-15.
+- La observabilidad llegó tarde: el tablero, las alertas y el correlationId en el log se completaron el último día.
 - Abrió frentes nuevos (WhatsApp con Meta, WAF, Grafana) el día antes de la entrega, a costa del ensayo y las pruebas.
 - Cuidado de la forma: erratas en lo escrito a mano y mensajes de commit informales en un repositorio que se evalúa.
 
