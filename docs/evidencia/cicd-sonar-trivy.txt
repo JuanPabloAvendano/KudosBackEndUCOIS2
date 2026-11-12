@@ -1,0 +1,53 @@
+# Evidencia de CI, CD, Sonar, Trivy y pruebas · UCO Kudos
+# Fuente: GitHub Actions (repositorios públicos) y API pública de SonarQube Cloud, consultadas el 12-nov-2026.
+
+## Back · backend-ci, run 43039559170 (push a master, commit 311fa00, 11-nov-2026)
+https://github.com/JuanPabloAvendano/KudosBackEndUCOIS2/actions/runs/43039559170
+JOB ci: success
+   Build, pruebas y SonarQube Cloud: success
+   Construir imagen: success
+   Escanear imagen con Trivy: success
+   Publicar imagen (GHCR): success
+JOB cd: success (aprobación manual en el entorno production)
+   azure/login (OIDC, sin secretos): success
+   Desplegar en Container Apps (az containerapp update -n ca-kudos-service): success
+
+Pruebas del back (Maven Surefire en el CI):
+   Tests run: 74, Failures: 0, Errors: 0, Skipped: 0
+   Dominio: KudoTest 5, AdjuntoTest 6, TipoDeArchivoTest 3, CursorDelFeedTest 2, KudoPublicadoTest 1,
+            UsuarioTest 4, CategoriaTest 2
+   Casos de uso: PublicarKudoCasoUsoImplTest 9, ConsultarFeedCasoUsoImplTest 6,
+            PublicarEventosPendientesCasoUsoImplTest 2, CasosSencillosTest 4, InputAdaptersTest 6
+   Adaptadores: AdaptadoresDeAzureTest 4, AdaptadoresSencillosTest 5, TransversalTest 2
+   Integración (Testcontainers, PostgreSQL 18 + Redis 8 reales): PublicarKudoIntegracionTest 9
+   Arquitectura (ArchUnit): ArquitecturaTest 4
+
+SonarQube Cloud (proyecto JuanPabloAvendano_KudosBackEndUCOIS2):
+   QUALITY GATE STATUS: PASSED
+   https://sonarcloud.io/dashboard?id=JuanPabloAvendano_KudosBackEndUCOIS2&branch=master
+   Cobertura 95,4 % · bugs 0 · vulnerabilidades 0 · code smells 0 · security hotspots 0 · duplicación 0,0 %
+   · 2803 líneas de código
+   Condiciones del gate sobre código nuevo: confiabilidad A, seguridad A, mantenibilidad A, cobertura >= 80 % (100 %)
+
+Trivy (aquasecurity/trivy-action, severidad CRITICAL,HIGH, exit-code 1, ignore-unfixed, .trivyignore con revisión):
+   ghcr.io/juanpabloavendano/kudos-service:311fa00 (ubuntu 26.04)   Vulnerabilities 0
+   app/app.jar                                                     Vulnerabilities 0
+   usr/bin/pebble                                                  Vulnerabilities 0
+Imagen publicada: sha256:6641e21b25dbdd4e37c24be49ee67e40bd4c81851ac55ffeca58a7d9252e1f17
+
+## Front · frontend-ci, run 43222653813 (master, commit 5bb7ef8, 12-nov-2026)
+https://github.com/JuanPabloAvendano/KudosFrontEndUCOIS2/actions/runs/43222653813
+JOB ci: success
+   Pruebas (Vitest): 3 archivos, 8 pruebas (cliente.spec 5, avisos.spec 2, tokenLocal.spec 1)
+   Compilar (vue-tsc + vite build): success, 241 módulos
+JOB cd: success (aprobación en production)
+   azure/login (OIDC): success
+   Publicar en $web (az storage blob upload-batch --auth-mode login): success
+
+## Comprobación en vivo de la publicación (12-nov-2026)
+   Front público  https://storagekudouco.z15.web.core.windows.net/                         -> 200
+   Health         ca-kudos-service /actuator/health                                         -> 200 {"status":"UP"}
+   API sin token  por el WAF (ca-kudos-waf) /api/kudos                                       -> 401 (APIM)
+   API sin token  directo a APIM /api/kudos                                                  -> 401
+   Back directo   ca-kudos-service /api/kudos (sin la cabecera del gateway)                  -> 403
+   Primera llamada tras inactividad: 504/503 por escala a cero (riesgo R-03; en la demo, una réplica mínima)

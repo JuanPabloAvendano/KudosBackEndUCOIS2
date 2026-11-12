@@ -26,6 +26,11 @@ muestra.
      `webpubsub-roles.png`.
    - WhatsApp con Twilio (cuenta de prueba: plantilla de Twilio y unión con `join twilio-trial`):
      `twilio-sandbox-join.jpg`, `twilio-unirse-sandbox.png`.
+   - WAF con ModSecurity + OWASP CRS delante de APIM (ADR-023): `waf-pruebas.txt` (21 pruebas sin token: SQLi, XSS,
+     traversal, comandos, Log4Shell y escáner bloqueados con 403; JSON, adjunto y CORS legítimos llegan a APIM).
+   - Observabilidad: tablero de Grafana en Azure Monitor (Monitor → Dashboards with Grafana → Import)
+     `grafana-kudos.json` (importado: `grafana-tablero.png`): resumen del flujo, WAF y APIM, kudos-service, Event Grid, Logic App, Web PubSub,
+     PostgreSQL, Redis y Blob.
 
 ## 2 · Plataforma
 - **Servicio:** Container App en modo Express con identidad administrada, secretos y parámetros por variables.
@@ -55,5 +60,18 @@ muestra.
 4. Docente publica un Kudo para Estudiante 1. Debe verse en ambos feeds, aparecer el aviso en la ventana de Estudiante
    y llegar el correo y el WhatsApp.
 
-Capturas pendientes: runs verdes de `backend-ci` y `frontend-ci`, quality gate de SonarQube, reporte de Trivy, `curl`
-con 401 (APIM sin token) y 403 (back sin gateway), correo y WhatsApp recibidos, aviso en pantalla y fila de `auditoria`.
+## 5 · Evidencias que pide el enunciado
+| Evidencia | Dónde |
+|---|---|
+| CI | `cicd-sonar-trivy.txt` (runs verdes de `backend-ci` y `frontend-ci`, con enlace) |
+| CD | `cicd-sonar-trivy.txt` (job `cd` con aprobación y OIDC), `oidc-credencial-federada-escenarios.png`, `iam-contributor-id-kudos-github.png` |
+| Sonar | `cicd-sonar-trivy.txt` (quality gate PASSED, cobertura 95,4 %, 0 bugs, 0 vulnerabilidades) |
+| Trivy | `cicd-sonar-trivy.txt` (0 vulnerabilidades HIGH/CRITICAL en imagen, jar y binarios) |
+| Publicación | `cicd-sonar-trivy.txt` (comprobación en vivo: front 200, 401 sin token, 403 sin gateway) |
+| Despliegue | §2 de este archivo (Container App, datos, Key Vault, OIDC, presupuesto) |
+| Correo | `acs-dominio.png`, `acs-correo-prueba.jpg`, `logicapp-flujo.png` |
+| WhatsApp | `logicapp-ejecuciones-whatsapp-ok.png`, `twilio-sandbox-join.jpg`, `twilio-unirse-sandbox.png` |
+| Push | `webpubsubazure.png`, `webpubsub-roles.png`, `e2e-kudo-con-adjunto-dos-usuarios.png` |
+| Auditoría | `logicapp-flujo.png` (acción Auditar en verde, tabla `auditoria`) |
+| Observabilidad | `grafana-kudos.json`, `grafana-tablero.png`, `eventgrid-metricas-dead-letter.png` |
+| Pruebas | `cicd-sonar-trivy.txt` (74 del back, 8 del front), `waf-pruebas.txt` (21 del WAF) |

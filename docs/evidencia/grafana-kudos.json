@@ -1,0 +1,1835 @@
+{
+  "title": "UCO Kudos · Publicar Kudo de punta a punta",
+  "uid": "uco-kudos",
+  "tags": [
+    "kudos",
+    "uco",
+    "azure"
+  ],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "refresh": "1m",
+  "templating": {
+    "list": [
+      {
+        "type": "datasource",
+        "name": "ds",
+        "label": "Azure Monitor",
+        "query": "grafana-azure-monitor-datasource"
+      },
+      {
+        "type": "constant",
+        "name": "suscripcion",
+        "hide": 2,
+        "query": "a2e8b237-0337-4513-bf81-255593178c9e"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "row",
+      "title": "Resumen del flujo (rango seleccionado)",
+      "id": 2,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "panels": []
+    },
+    {
+      "type": "stat",
+      "title": "Peticiones a APIM",
+      "id": 3,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.apimanagement/service",
+                "resourceName": "apim-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.apimanagement/service",
+            "metricName": "Requests",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Ataques bloqueados por el WAF",
+      "id": 4,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "let L = union isfuzzy=true ContainerAppConsoleLogs_CL, ContainerAppConsoleLogs\n| extend app = coalesce(column_ifexists('ContainerAppName_s', ''), column_ifexists('ContainerAppName', '')),\n         log = coalesce(column_ifexists('Log_s', ''), column_ifexists('Log', ''));\nL | where app == 'ca-kudos-waf' and log has 'ModSecurity: Access denied' | summarize valor = count()",
+            "resources": [
+              "/subscriptions/${suscripcion}/resourceGroups/rg-kudos/providers/Microsoft.OperationalInsights/workspaces/log-kudos"
+            ],
+            "resultFormat": "table"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Eventos publicados (outbox → Event Grid)",
+      "id": 5,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "PublishSuccessCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Notificaciones procesadas (Logic App OK)",
+      "id": 6,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.logic/workflows",
+                "resourceName": "logic-kudos-notificaciones",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.logic/workflows",
+            "metricName": "RunsSucceeded",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Ejecuciones fallidas (Logic App)",
+      "id": 7,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.logic/workflows",
+                "resourceName": "logic-kudos-notificaciones",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.logic/workflows",
+            "metricName": "RunsFailed",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Eventos en dead-letter",
+      "id": 8,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "DeadLetteredCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area"
+      }
+    },
+    {
+      "type": "row",
+      "title": "Entrada: WAF (ModSecurity + OWASP CRS) y API Gateway",
+      "id": 9,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "WAF · peticiones por código HTTP",
+      "id": 10,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "let L = union isfuzzy=true ContainerAppConsoleLogs_CL, ContainerAppConsoleLogs\n| extend app = coalesce(column_ifexists('ContainerAppName_s', ''), column_ifexists('ContainerAppName', '')),\n         log = coalesce(column_ifexists('Log_s', ''), column_ifexists('Log', ''));\nL | where app == 'ca-kudos-waf' | extend codigo = extract(@'HTTP/[0-9.]+\" ([0-9]{3}) ', 1, log) | where isnotempty(codigo) | summarize peticiones = count() by bin(TimeGenerated, 5m), codigo | order by TimeGenerated asc",
+            "resources": [
+              "/subscriptions/${suscripcion}/resourceGroups/rg-kudos/providers/Microsoft.OperationalInsights/workspaces/log-kudos"
+            ],
+            "resultFormat": "time_series"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "WAF · ataques bloqueados",
+      "id": 11,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "let L = union isfuzzy=true ContainerAppConsoleLogs_CL, ContainerAppConsoleLogs\n| extend app = coalesce(column_ifexists('ContainerAppName_s', ''), column_ifexists('ContainerAppName', '')),\n         log = coalesce(column_ifexists('Log_s', ''), column_ifexists('Log', ''));\nL | where app == 'ca-kudos-waf' and log has 'ModSecurity: Access denied' | summarize bloqueos = count() by bin(TimeGenerated, 5m) | order by TimeGenerated asc",
+            "resources": [
+              "/subscriptions/${suscripcion}/resourceGroups/rg-kudos/providers/Microsoft.OperationalInsights/workspaces/log-kudos"
+            ],
+            "resultFormat": "time_series"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "table",
+      "title": "WAF · reglas OWASP CRS que más bloquean",
+      "id": 12,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "let L = union isfuzzy=true ContainerAppConsoleLogs_CL, ContainerAppConsoleLogs\n| extend app = coalesce(column_ifexists('ContainerAppName_s', ''), column_ifexists('ContainerAppName', '')),\n         log = coalesce(column_ifexists('Log_s', ''), column_ifexists('Log', ''));\nL | where app == 'ca-kudos-waf' and log has 'ModSecurity: Access denied' | extend regla = extract(@'\\[id \"([0-9]+)\"\\]', 1, log), mensaje = extract(@'\\[msg \"([^\"]+)\"\\]', 1, log) | summarize bloqueos = count() by regla, mensaje | top 10 by bloqueos",
+            "resources": [
+              "/subscriptions/${suscripcion}/resourceGroups/rg-kudos/providers/Microsoft.OperationalInsights/workspaces/log-kudos"
+            ],
+            "resultFormat": "table"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "APIM · peticiones por categoría de respuesta",
+      "id": 13,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.apimanagement/service",
+                "resourceName": "apim-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.apimanagement/service",
+            "metricName": "Requests",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [
+              {
+                "dimension": "GatewayResponseCodeCategory",
+                "operator": "eq",
+                "filters": []
+              }
+            ]
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "APIM · duración total y del back (ms)",
+      "id": 14,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.apimanagement/service",
+                "resourceName": "apim-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.apimanagement/service",
+            "metricName": "Duration",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "total"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.apimanagement/service",
+                "resourceName": "apim-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.apimanagement/service",
+            "metricName": "BackendDuration",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "kudos-service"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Container Apps · peticiones del WAF y del back",
+      "id": 15,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-waf",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "Requests",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "ca-kudos-waf"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-service",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "Requests",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "ca-kudos-service"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "row",
+      "title": "kudos-service (Container Apps)",
+      "id": 16,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Peticiones por código",
+      "id": 17,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-service",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "Requests",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [
+              {
+                "dimension": "statusCodeCategory",
+                "operator": "eq",
+                "filters": []
+              }
+            ]
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 24
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Réplicas",
+      "id": 18,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-service",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "Replicas",
+            "aggregation": "Maximum",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "kudos-service"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-waf",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "Replicas",
+            "aggregation": "Maximum",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "waf"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 24
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "description": "Debe quedar en 1 durante la demo (riesgo R-03: escala a cero)"
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU (nanonúcleos)",
+      "id": 19,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-service",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "UsageNanoCores",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 24
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Memoria",
+      "id": 20,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.app/containerapps",
+                "resourceName": "ca-kudos-service",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.app/containerapps",
+            "metricName": "WorkingSetBytes",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 24
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Errores en el log",
+      "id": 21,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "let L = union isfuzzy=true ContainerAppConsoleLogs_CL, ContainerAppConsoleLogs\n| extend app = coalesce(column_ifexists('ContainerAppName_s', ''), column_ifexists('ContainerAppName', '')),\n         log = coalesce(column_ifexists('Log_s', ''), column_ifexists('Log', ''));\nL | where app == 'ca-kudos-service' and log has_any ('ERROR', 'Exception') | summarize errores = count() by bin(TimeGenerated, 5m) | order by TimeGenerated asc",
+            "resources": [
+              "/subscriptions/${suscripcion}/resourceGroups/rg-kudos/providers/Microsoft.OperationalInsights/workspaces/log-kudos"
+            ],
+            "resultFormat": "time_series"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 32
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "table",
+      "title": "Últimos errores del back",
+      "id": 22,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "azureLogAnalytics": {
+            "query": "let L = union isfuzzy=true ContainerAppConsoleLogs_CL, ContainerAppConsoleLogs\n| extend app = coalesce(column_ifexists('ContainerAppName_s', ''), column_ifexists('ContainerAppName', '')),\n         log = coalesce(column_ifexists('Log_s', ''), column_ifexists('Log', ''));\nL | where app == 'ca-kudos-service' and log has_any ('ERROR', 'Exception') | project TimeGenerated, log | top 50 by TimeGenerated",
+            "resources": [
+              "/subscriptions/${suscripcion}/resourceGroups/rg-kudos/providers/Microsoft.OperationalInsights/workspaces/log-kudos"
+            ],
+            "resultFormat": "table"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 8,
+        "y": 32
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "row",
+      "title": "Eventos y notificaciones",
+      "id": 23,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "Event Grid · publicación",
+      "id": 24,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "PublishSuccessCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "publicados"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "PublishFailCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "fallidos"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 41
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Event Grid · entrega a la Logic App",
+      "id": 25,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "DeliverySuccessCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "entregados"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "DeliveryAttemptFailCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "intentos fallidos"
+          }
+        },
+        {
+          "refId": "C",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.eventgrid/topics",
+                "resourceName": "kudos-eventos",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.eventgrid/topics",
+            "metricName": "DeadLetteredCount",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "dead-letter"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 41
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Logic App · ejecuciones",
+      "id": 26,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.logic/workflows",
+                "resourceName": "logic-kudos-notificaciones",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.logic/workflows",
+            "metricName": "RunsSucceeded",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "OK"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.logic/workflows",
+                "resourceName": "logic-kudos-notificaciones",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.logic/workflows",
+            "metricName": "RunsFailed",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "fallidas"
+          }
+        },
+        {
+          "refId": "C",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.logic/workflows",
+                "resourceName": "logic-kudos-notificaciones",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.logic/workflows",
+            "metricName": "ActionsFailed",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "acciones fallidas"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 41
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Logic App · latencia de la ejecución",
+      "id": 27,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.logic/workflows",
+                "resourceName": "logic-kudos-notificaciones",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.logic/workflows",
+            "metricName": "RunLatency",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Web PubSub · conexiones (límite Free: 20)",
+      "id": 28,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.signalrservice/webpubsub",
+                "resourceName": "wps-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.signalrservice/webpubsub",
+            "metricName": "TotalConnectionCount",
+            "aggregation": "Maximum",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "conexiones"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.signalrservice/webpubsub",
+                "resourceName": "wps-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.signalrservice/webpubsub",
+            "metricName": "ConnectionQuotaUtilization",
+            "aggregation": "Maximum",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "% de la cuota"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 18
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Web PubSub · tráfico",
+      "id": 29,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.signalrservice/webpubsub",
+                "resourceName": "wps-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.signalrservice/webpubsub",
+            "metricName": "InboundTraffic",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "entrada"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.signalrservice/webpubsub",
+                "resourceName": "wps-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.signalrservice/webpubsub",
+            "metricName": "OutboundTraffic",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "salida"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 49
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "row",
+      "title": "Datos",
+      "id": 30,
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "panels": []
+    },
+    {
+      "type": "timeseries",
+      "title": "PostgreSQL · CPU y memoria (%)",
+      "id": 31,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+                "resourceName": "psql-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "metricName": "cpu_percent",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "cpu"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+                "resourceName": "psql-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "metricName": "memory_percent",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "memoria"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 58
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "PostgreSQL · conexiones activas",
+      "id": 32,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+                "resourceName": "psql-kudos-uco",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "metricName": "active_connections",
+            "aggregation": "Maximum",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 58
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Redis · aciertos y fallos de caché (feed)",
+      "id": 33,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.cache/redisenterprise",
+                "resourceName": "redis-kudos-uco-v2",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.cache/redisenterprise",
+            "metricName": "cachehits",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "aciertos"
+          }
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.cache/redisenterprise",
+                "resourceName": "redis-kudos-uco-v2",
+                "region": "canadacentral"
+              }
+            ],
+            "metricNamespace": "microsoft.cache/redisenterprise",
+            "metricName": "cachemisses",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [],
+            "alias": "fallos"
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 58
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "description": "Cache-Aside del feed (ADR-011, ADR-017)"
+    },
+    {
+      "type": "timeseries",
+      "title": "Blob (adjuntos y front) · transacciones",
+      "id": 34,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.storage/storageaccounts",
+                "resourceName": "storagekudouco",
+                "region": "brazilsouth"
+              }
+            ],
+            "metricNamespace": "microsoft.storage/storageaccounts",
+            "metricName": "Transactions",
+            "aggregation": "Total",
+            "timeGrain": "auto",
+            "dimensionFilters": [
+              {
+                "dimension": "ResponseType",
+                "operator": "eq",
+                "filters": []
+              }
+            ]
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 66
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Blob · disponibilidad",
+      "id": 35,
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "subscription": "${suscripcion}",
+          "azureMonitor": {
+            "resources": [
+              {
+                "subscription": "${suscripcion}",
+                "resourceGroup": "rg-kudos",
+                "metricNamespace": "microsoft.storage/storageaccounts",
+                "resourceName": "storagekudouco",
+                "region": "brazilsouth"
+              }
+            ],
+            "metricNamespace": "microsoft.storage/storageaccounts",
+            "metricName": "Availability",
+            "aggregation": "Average",
+            "timeGrain": "auto",
+            "dimensionFilters": []
+          }
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 66
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent"
+        },
+        "overrides": []
+      }
+    }
+  ]
+}

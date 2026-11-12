@@ -1,0 +1,34 @@
+# Pruebas del WAF (ModSecurity + OWASP CRS) · 12-nov-2026
+# Script: .claude/herramientas/waf-pruebas.sh · sin token: ataques -> 403 del WAF, trafico legitimo -> 401 de APIM
+
+--- Legitimo (debe pasar a APIM)
+ok    401  (esperado 401    ) GET feed
+ok    401  (esperado 401    ) GET feed paginado
+ok    401  (esperado 401    ) GET usuarios
+ok    401  (esperado 401    ) GET push/conexion
+ok    401  (esperado 401    ) POST JSON con tildes y enie
+ok    401  (esperado 401    ) POST multipart con adjunto
+ok    401  (esperado 401    ) GET con JWT falso largo
+ok    200  (esperado 200    ) Preflight CORS
+--- Ataques (debe bloquear ModSecurity)
+ok    403  (esperado 403    ) SQLi en query
+ok    403  (esperado 403    ) SQLi OR 1=1
+ok    403  (esperado 403    ) XSS en query
+ok    403  (esperado 403    ) XSS en body JSON
+ok    403  (esperado 403    ) SQLi en body JSON
+ok    404  (esperado 400,403,404) Path traversal
+ok    403  (esperado 403    ) Path traversal codificado
+ok    403  (esperado 403    ) Inyeccion de comandos
+ok    403  (esperado 403    ) Log4Shell
+ok    403  (esperado 403    ) Escaner (User-Agent nikto)
+ok    403  (esperado 403,405) Metodo no permitido (PUT)
+ok    405  (esperado 403,405) Metodo TRACE
+--- Puerta lateral y latencia
+ok    401  (esperado 401    ) APIM directo (sin WAF)
+latencia WAF->APIM: 0.635122s
+latencia WAF->APIM: 0.323458s
+latencia WAF->APIM: 0.363536s
+latencia APIM directo: 0.333583s
+--- Cabeceras de respuesta del WAF
+server: nginx
+access-control-allow-headers: *
