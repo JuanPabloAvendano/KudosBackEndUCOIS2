@@ -73,5 +73,5 @@ muestra.
 | WhatsApp | `logicapp-ejecuciones-whatsapp-ok.png`, `twilio-sandbox-join.jpg`, `twilio-unirse-sandbox.png` |
 | Push | `webpubsubazure.png`, `webpubsub-roles.png`, `e2e-kudo-con-adjunto-dos-usuarios.png` |
 | Auditoría | `logicapp-flujo.png` (acción Auditar en verde, tabla `auditoria`) |
-| Observabilidad | `grafana-kudos.json`, `grafana-tablero.png`, `eventgrid-metricas-dead-letter.png` |
+| Observabilidad | `grafana-kudos.json`, `grafana-tablero.png`, `eventgrid-metricas-dead-letter.png`, `alertas-azure-monitor.png` (dead-letter > 0 y ejecuciones fallidas > 0), `log-correlationid.png` (correlationId en cada línea del log) |
 | Pruebas | `cicd-sonar-trivy.txt` (74 del back, 8 del front), `waf-pruebas.txt` (21 del WAF) |
